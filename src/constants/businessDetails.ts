@@ -1,11 +1,11 @@
 /**
  * ============================================================================
- * TEMPORARY BUSINESS DETAILS & CONSTANTS
+ * Centralized Business Details & Contact Configuration
  * ============================================================================
- * IMPORTANT: The business contact details, social links, and physical address
- * below are TEMPORARY / PLACEHOLDER information for the setup phase.
+ * Temporary business details - replace before production.
  * 
- * Update this centralized configuration file whenever real client details are provided.
+ * Note: Phone, WhatsApp, Email, Address, Facebook, and Instagram details below
+ * are temporary placeholders and will change before production.
  * ============================================================================
  */
 

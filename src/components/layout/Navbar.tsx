@@ -25,52 +25,30 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-[#FAF8F3]/90 backdrop-blur-md border-b border-[#C6A15B]/20 transition-all">
-      {/* Top Announcement Bar */}
-      <div className="bg-[#121212] text-[#FAF8F3] text-[11px] py-2 px-4 border-b border-[#C6A15B]/20">
-        <div className="max-w-7xl mx-auto flex justify-between items-center tracking-wider">
-          <p className="flex items-center gap-2 text-white/80">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C6A15B] animate-pulse"></span>
-            <span className="hidden sm:inline">Boutique Location:</span>
-            <span className="text-[#FAF8F3]">{BUSINESS_DETAILS.address}</span>
-          </p>
-          <div className="flex items-center gap-4">
-            <a 
-              href={getWhatsAppEnquiryUrl()} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-[#C6A15B] hover:text-white transition-colors font-semibold"
-            >
-              <Phone className="w-3 h-3" />
-              <span>WhatsApp: {BUSINESS_DETAILS.whatsapp}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* Logo Integration */}
-          <Link to="/" className="flex items-center gap-3 group">
-            {/* Logo Emblem inside dark luxury crest frame */}
-            <div className="relative p-1 bg-[#121212] border border-[#C6A15B]/40 rounded-sm shadow-md group-hover:border-[#C6A15B] transition-all">
+          {/* Logo & Brand Integration */}
+          <Link to="/" className="flex items-center gap-3.5 sm:gap-4 group py-1">
+            {/* Logo Emblem inside refined luxury crest frame */}
+            <div className="relative p-1.5 bg-white border border-[#C6A15B]/30 rounded-lg shadow-xs group-hover:border-[#C6A15B] group-hover:shadow-md transition-all duration-300">
               <img 
                 src={logoMark} 
                 alt="Zeenath Jewellers Logo Emblem" 
-                className="h-10 w-10 object-cover rounded-xs"
+                className="h-10 w-10 sm:h-11 sm:w-11 object-cover rounded-xs"
               />
             </div>
             
-            {/* Brand Title with Script Touch */}
-            <div className="flex flex-col">
-              <div className="flex items-baseline gap-1">
-                <span className="font-script text-2xl text-[#C6A15B] leading-none font-bold">Zeenath</span>
-                <span className="font-serif text-lg font-bold tracking-widest text-[#121212] uppercase leading-none">
+            {/* Unified Brand Lockup */}
+            <div className="flex flex-col justify-center">
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-script text-2xl sm:text-3xl text-[#C6A15B] leading-none font-medium">Zeenath</span>
+                <span className="font-serif text-xs sm:text-sm font-semibold tracking-[0.24em] text-[#121212] uppercase leading-none">
                   JEWELLERS
                 </span>
               </div>
-              <span className="text-[9px] tracking-[0.25em] text-gray-500 uppercase font-medium mt-0.5">
+              <span className="text-[9px] sm:text-[10px] tracking-[0.22em] text-gray-500 uppercase font-medium mt-1">
                 {BUSINESS_DETAILS.tagline}
               </span>
             </div>
