@@ -55,96 +55,152 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-24 pb-20 overflow-hidden">
       
-      {/* 4. EDITORIAL / FUTURISTIC HERO SECTION */}
-      <section className="relative pt-12 pb-20 lg:py-24 bg-gradient-to-b from-[#FAF8F3] via-[#FAF5EB] to-[#FAF8F3]">
-        {/* Soft Background Accent Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C6A15B]/5 rounded-full blur-3xl pointer-events-none"></div>
+      {/* 3 & 4. EDITORIAL, FUTURISTIC & HIGH-LUXURY HERO SECTION */}
+      <section className="relative pt-8 pb-20 lg:pt-12 lg:pb-28 overflow-hidden bg-[#FAF8F3]">
+        {/* Subtle Futuristic Radial Gold Atmosphere */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-radial from-[#C6A15B]/10 via-[#FAF8F3]/40 to-transparent blur-3xl pointer-events-none animate-pulse-glow"></div>
+        
+        {/* Delicate Geometric Architectural Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#C6A15B0A_1px,transparent_1px),linear-gradient(to_bottom,#C6A15B0A_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] opacity-70 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
               
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white border border-[#C6A15B]/30 rounded-full shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-[#C6A15B]"></span>
-                <span className="text-[11px] uppercase tracking-[0.2em] text-[#C6A15B] font-semibold">
-                  Contemporary Fine Gold • Colombo 7
+              {/* Futuristic Pill Badge */}
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white/90 backdrop-blur-md border border-[#C6A15B]/35 rounded-full shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-[#C6A15B] animate-pulse"></span>
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#121212] font-semibold">
+                  Contemporary Fine Gold • <span className="text-[#C6A15B]">Colombo 7 Flagship</span>
                 </span>
               </div>
 
-              {/* Script + Serif Typographic Hero Header */}
-              <div className="space-y-1">
-                <span className="font-script text-6xl sm:text-8xl text-[#C6A15B] block font-bold leading-tight drop-shadow-xs">
-                  Zeenath
-                </span>
-                <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#121212] uppercase leading-none">
-                  JEWELLERS
-                </h1>
-                <p className="font-serif italic text-xl sm:text-2xl text-[#121212]/70 pt-2">
+              {/* UNIFIED LUXURY BRAND LOCKUP (Zeenath + JEWELLERS) */}
+              <div className="space-y-3">
+                <div className="relative inline-flex flex-col items-center lg:items-start select-none">
+                  
+                  {/* "Zeenath" in sweeping luxury script */}
+                  <span className="font-script text-5xl sm:text-7xl lg:text-8xl text-[#C6A15B] leading-none block font-normal drop-shadow-xs -mb-2 lg:-mb-4 z-10 relative">
+                    Zeenath
+                  </span>
+
+                  {/* "JEWELLERS" in medium weight, wide-tracked serif with delicate framing rules */}
+                  <div className="flex items-center gap-3 sm:gap-4 w-full justify-center lg:justify-start">
+                    <span className="hidden sm:inline-block h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#C6A15B]/40"></span>
+                    <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-normal tracking-[0.38em] text-[#121212] uppercase leading-none border-y border-[#C6A15B]/30 py-2.5 px-4 sm:px-6 bg-white/50 backdrop-blur-xs rounded-xs shadow-2xs">
+                      JEWELLERS
+                    </h1>
+                    <span className="hidden sm:inline-block h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#C6A15B]/40"></span>
+                  </div>
+                </div>
+
+                {/* Tagline */}
+                <p className="font-serif italic text-lg sm:text-2xl text-[#121212]/80 pt-1 tracking-wide">
                   "{BUSINESS_DETAILS.tagline}"
                 </p>
               </div>
 
               <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
-                Discover an unprecedented synthesis of Sri Lankan gold heritage and 2026 modern minimal aesthetics. Every piece is crafted in certified 22K & 24K gold with meticulous hallmarking precision.
+                Discover an unprecedented synthesis of Sri Lankan gold heritage and contemporary luxury aesthetics. Every ornament is meticulously crafted in hallmarked 22K & 24K gold at our Colombo 7 boutique atelier.
               </p>
 
-              {/* CTAs */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              {/* Micro-Interactive Gold Purity Chips */}
+              <div className="pt-1 flex flex-wrap gap-2 justify-center lg:justify-start">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#121212]/5 border border-[#C6A15B]/20 text-[10px] uppercase tracking-wider text-gray-700 rounded-xs">
+                  <ShieldCheck className="w-3 h-3 text-[#C6A15B]" />
+                  100% Certified 22K & 24K
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#121212]/5 border border-[#C6A15B]/20 text-[10px] uppercase tracking-wider text-gray-700 rounded-xs">
+                  <Gem className="w-3 h-3 text-[#C6A15B]" />
+                  Bespoke Bridal Atelier
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#121212]/5 border border-[#C6A15B]/20 text-[10px] uppercase tracking-wider text-gray-700 rounded-xs">
+                  <Sparkles className="w-3 h-3 text-[#C6A15B]" />
+                  Direct WhatsApp Sync
+                </span>
+              </div>
+
+              {/* Futuristic Action Buttons */}
+              <div className="pt-3 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   to="/shop"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#121212] text-white hover:bg-[#C6A15B] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-md"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#121212] text-white hover:bg-[#C6A15B] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-lg group hover:shadow-xl hover:-translate-y-0.5"
                 >
-                  <span>Shop Jewellery</span>
-                  <ArrowRight className="w-4 h-4 text-[#C6A15B]" />
+                  <span>Shop Collection</span>
+                  <ArrowRight className="w-4 h-4 text-[#C6A15B] group-hover:translate-x-1 group-hover:text-white transition-all" />
                 </Link>
 
                 <Link
                   to="/custom-jewellery"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-[#C6A15B]/40 text-[#121212] hover:border-[#121212] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 backdrop-blur-md bg-white/70 border border-[#C6A15B]/40 text-[#121212] hover:bg-[#121212] hover:text-white hover:border-[#121212] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-xs hover:-translate-y-0.5"
                 >
-                  <span>Custom Jewellery</span>
+                  <span>Custom Atelier</span>
                 </Link>
+
+                <a
+                  href={getWhatsAppEnquiryUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-[#C6A15B]/30 text-[#C6A15B] hover:text-[#121212] hover:bg-[#C6A15B]/10 transition-all text-xs font-semibold uppercase tracking-[0.18em] rounded-xs"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>Daily Rates</span>
+                </a>
               </div>
 
             </div>
 
-            {/* Right Asymmetrical Editorial Image Composition */}
-            <div className="lg:col-span-5 relative">
+            {/* Right Asymmetrical Layered Editorial Image Composition */}
+            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 
-                {/* Main Hero Card */}
-                <div className="relative rounded-lg overflow-hidden shadow-xl border border-white/60 bg-white group">
+                {/* Layer 1: Backing Gold Laser Frame Accent */}
+                <div className="absolute -inset-4 rounded-2xl border border-[#C6A15B]/30 bg-gradient-to-br from-[#FAF5EB] to-[#FAF8F3] translate-x-3 translate-y-3 pointer-events-none shadow-sm"></div>
+
+                {/* Layer 2: Primary Editorial Card */}
+                <div className="relative rounded-xl overflow-hidden shadow-2xl border border-white/80 bg-white group z-10">
                   <img
                     src={heroBanner}
                     alt="Zeenath Jewellers Editorial Gold Collection"
-                    className="w-full h-[420px] sm:h-[480px] object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-[440px] sm:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                   
-                  <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#C6A15B] font-bold">2026 Fine Collection</span>
-                    <h3 className="font-serif text-xl font-bold">22K Handcrafted Masterpieces</h3>
-                    <p className="text-xs text-white/70">Boutique: {BUSINESS_DETAILS.address}</p>
+                  {/* Image Overlay Label */}
+                  <div className="absolute bottom-6 left-6 right-6 text-white space-y-1 z-20">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#C6A15B]"></span>
+                      <span className="text-[10px] uppercase tracking-[0.22em] text-[#C6A15B] font-bold">
+                        Haute Joaillerie 2026
+                      </span>
+                    </div>
+                    <h3 className="font-serif text-2xl font-normal tracking-wide">22K Handcrafted Masterpieces</h3>
+                    <p className="text-xs text-white/70 font-light">Boutique Atelier: {BUSINESS_DETAILS.address}</p>
                   </div>
                 </div>
 
-                {/* Floating Accent Badge 1 */}
-                <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg border border-[#C6A15B]/30 hidden sm:flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#C6A15B]/10 flex items-center justify-center text-[#C6A15B]">
+                {/* Layer 3: Floating Top Right Glass Badge */}
+                <div className="absolute -top-5 -right-4 bg-[#121212]/90 backdrop-blur-md text-white p-3.5 sm:p-4 rounded-lg shadow-xl border border-[#C6A15B]/40 hidden sm:flex items-center gap-3 z-30 animate-float">
+                  <div className="w-9 h-9 rounded-full bg-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] shrink-0">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white tracking-wide">Colombo 7 Boutique</p>
+                    <p className="text-[10px] text-[#C6A15B]">Exclusive Custom Design</p>
+                  </div>
+                </div>
+
+                {/* Layer 4: Floating Bottom Left Glass Badge */}
+                <div className="absolute -bottom-5 -left-4 bg-white/90 backdrop-blur-md text-[#121212] p-4 rounded-lg shadow-xl border border-[#C6A15B]/30 hidden sm:flex items-center gap-3.5 z-30 hover:scale-105 transition-transform duration-300">
+                  <div className="w-10 h-10 rounded-full bg-[#C6A15B] flex items-center justify-center text-white shrink-0 shadow-xs">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-[#121212]">100% Certified Purity</p>
-                    <p className="text-[10px] text-gray-500">Hallmarked 22K & 24K Gold</p>
+                    <p className="text-xs font-bold text-[#121212] tracking-wide">Guaranteed Hallmarked Purity</p>
+                    <p className="text-[10px] text-gray-500">Certified 22K & 24K Fine Gold</p>
                   </div>
-                </div>
-
-                {/* Floating Accent Badge 2 */}
-                <div className="absolute -top-6 -right-6 bg-[#121212] text-white p-3.5 rounded-lg shadow-lg border border-[#C6A15B]/40 hidden sm:flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C6A15B]" />
-                  <span className="text-xs font-semibold tracking-wider">Colombo 7 Flagship</span>
                 </div>
 
               </div>

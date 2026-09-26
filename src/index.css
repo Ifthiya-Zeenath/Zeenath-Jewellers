@@ -8,8 +8,9 @@
   --color-gold-light: #E5CD98;
   --color-gold-muted: #F3EBD9;
 
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-script: "Alex Brush", cursive, serif;
+  --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-script: "Alex Brush", "Pinyon Script", cursive, serif;
+  --font-pinyon: "Pinyon Script", "Alex Brush", cursive, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
 
@@ -33,16 +34,42 @@
   .font-script {
     font-family: var(--font-script);
   }
+
+  .font-pinyon {
+    font-family: var(--font-pinyon);
+  }
 }
 
-/* Custom Editorial Animation & Blur Utilities */
+/* Custom Editorial Animation & Futuristic Utilities */
 @keyframes floatSlow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes shimmerMetallic {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .animate-float {
   animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 8s ease-in-out infinite;
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #C6A15B 0%, #F5E6C8 50%, #C6A15B 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerMetallic 6s linear infinite;
 }
 
 /* Smooth glass overlay */
@@ -51,3 +78,10 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+
+.backdrop-glass-dark {
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
