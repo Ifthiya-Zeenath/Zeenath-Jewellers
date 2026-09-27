@@ -15,9 +15,9 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   const allCategories = ['All', ...CATEGORIES];
 
   return (
-    <div className="w-full overflow-hidden">
-      {/* Desktop & Mobile Scrollable Container */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 scrollbar-none scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
+    <div className="w-full">
+      {/* Scrollable Container with touch support and no truncation */}
+      <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none scroll-smooth whitespace-nowrap -mx-1 px-1">
         {allCategories.map((category) => {
           const isSelected = selectedCategory === category;
           const count = productCounts ? productCounts[category] : undefined;
@@ -25,18 +25,21 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
           return (
             <button
               key={category}
+              type="button"
               onClick={() => onSelectCategory(category)}
-              className={`px-4 py-2 rounded-xs text-xs uppercase tracking-[0.14em] font-medium whitespace-nowrap transition-all duration-200 border flex items-center gap-1.5 cursor-pointer ${
+              className={`shrink-0 px-3.5 py-2 rounded-xs text-[11px] sm:text-xs uppercase tracking-[0.14em] font-medium transition-all duration-200 border flex items-center gap-2 cursor-pointer select-none ${
                 isSelected
-                  ? 'bg-[#121212] text-white border-[#121212] shadow-sm'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-[#C6A15B] hover:text-[#C6A15B]'
+                  ? 'bg-[#121212] text-white border-[#121212] shadow-xs'
+                  : 'bg-[#FAF8F3] text-[#121212]/80 border-[#C6A15B]/25 hover:border-[#C6A15B] hover:text-[#C6A15B] hover:bg-white'
               }`}
             >
               <span>{category}</span>
               {count !== undefined && (
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-semibold ${
-                    isSelected ? 'bg-[#C6A15B] text-white' : 'bg-gray-100 text-gray-500'
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-semibold transition-colors ${
+                    isSelected
+                      ? 'bg-[#C6A15B] text-white'
+                      : 'bg-white text-gray-500 border border-gray-200'
                   }`}
                 >
                   {count}
