@@ -1,0 +1,88 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function: Check if the requesting user is an authorized administrator.
+    // Evaluates to true if the user is authenticated and either:
+    // 1. Has custom claim `admin: true` in their Firebase Auth ID token payload, OR
+    // 2. Has an explicit document entry in the `/admins/{uid}` Firestore collection.
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.admin == true ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // ============================================================================
+    // PRODUCTS COLLECTION
+    // ============================================================================
+    // - Public: Anyone can read/list products for the storefront.
+    // - Admin: Only authorized administrators can create, update, or delete products.
+    // ============================================================================
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ============================================================================
+    // CATEGORIES COLLECTION
+    // ============================================================================
+    // - Public: Anyone can read categories for filtering shop items.
+    // - Admin: Only authorized administrators can create, update, or delete categories.
+    // ============================================================================
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ============================================================================
+    // CUSTOM REQUESTS COLLECTION
+    // ============================================================================
+    // - Public: Anyone can submit a custom request (create with validated fields & 'pending' status).
+    // - Admin: Only administrators can view (read/list), update, or delete custom requests.
+    // - Privacy: Public customers cannot read or query submitted requests.
+    // ============================================================================
+    match /customRequests/{requestId} {
+      allow create: if request.resource.data.customerName is string
+                    && request.resource.data.phone is string
+                    && request.resource.data.email is string
+                    && request.resource.data.jewelleryType is string
+                    && request.resource.data.metalType is string
+                    && request.resource.data.budgetRange is string
+                    && request.resource.data.designDescription is string
+                    && request.resource.data.status == 'pending';
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ============================================================================
+    // ENQUIRIES COLLECTION
+    // ============================================================================
+    // - Public: Anyone can submit an enquiry (create with validated fields & 'new' status).
+    // - Admin: Only administrators can view (read/list), update, or delete enquiries.
+    // - Privacy: Public customers cannot read or query submitted enquiries.
+    // ============================================================================
+    match /enquiries/{enquiryId} {
+      allow create: if request.resource.data.customerName is string
+                    && request.resource.data.phone is string
+                    && request.resource.data.message is string
+                    && request.resource.data.status == 'new';
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ============================================================================
+    // ADMINS COLLECTION (Role-Based Access Control Lookup)
+    // ============================================================================
+    // - Stores admin user authorization documents: `/admins/{uid}`.
+    // - Only existing administrators can view or edit admin entries.
+    // ============================================================================
+    match /admins/{adminUid} {
+      allow read, write: if isAdmin();
+    }
+
+    // Default Fallback: Deny all unhandled read/write operations.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

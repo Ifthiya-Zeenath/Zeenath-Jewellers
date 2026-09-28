@@ -1,9 +1,17 @@
 import React from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, Layers, MessageSquare, ArrowLeft, Shield } from 'lucide-react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Package, Layers, MessageSquare, ArrowLeft, Shield, LogOut, User as UserIcon } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export const AdminLayout: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/admin/login', { replace: true });
+  };
 
   const adminNav = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
@@ -18,7 +26,9 @@ export const AdminLayout: React.FC = () => {
       <header className="bg-gray-950 border-b border-gray-800 px-6 py-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
-            <Shield className="w-6 h-6 text-[#C6A15B]" />
+            <div className="p-1.5 bg-[#C6A15B]/10 border border-[#C6A15B]/30 rounded-md">
+              <Shield className="w-6 h-6 text-[#C6A15B]" />
+            </div>
             <div>
               <h1 className="text-lg font-serif-luxury tracking-wider text-white font-bold">
                 ZEENATH JEWELLERY
@@ -27,13 +37,31 @@ export const AdminLayout: React.FC = () => {
             </div>
           </div>
 
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-xs uppercase tracking-widest text-gray-400 hover:text-white border border-gray-700 px-3 py-1.5 rounded transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to Public Store</span>
-          </Link>
+          <div className="flex items-center gap-4">
+            {user && (
+              <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-gray-900 px-3 py-1.5 rounded border border-gray-800">
+                <UserIcon className="w-3.5 h-3.5 text-[#C6A15B]" />
+                <span className="font-mono text-white/90">{user.email}</span>
+              </div>
+            )}
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-red-400 hover:text-white bg-red-950/40 hover:bg-red-900 border border-red-800/60 px-3 py-1.5 rounded transition-all cursor-pointer"
+              title="Sign out of admin console"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Logout</span>
+            </button>
+
+            <Link
+              to="/"
+              className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-gray-400 hover:text-white border border-gray-800 px-3 py-1.5 rounded transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Public Store</span>
+            </Link>
+          </div>
         </div>
       </header>
 
