@@ -5,6 +5,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { PublicLayout } from '../components/layout/PublicLayout';
 import { AdminLayout } from '../components/layout/AdminLayout';
 
+// Auth Guards
+import { ProtectedRoute } from '../components/auth/ProtectedRoute';
+import { PublicOnlyAdminRoute } from '../components/auth/PublicOnlyAdminRoute';
+
 // Public Pages
 import { HomePage } from '../pages/public/HomePage';
 import { ShopPage } from '../pages/public/ShopPage';
@@ -33,16 +37,20 @@ export const AppRoutes: React.FC = () => {
         <Route path="/custom-jewellery" element={<CustomJewelleryPage />} />
       </Route>
 
-      {/* Admin Login (Standalone full screen) */}
-      <Route path="/admin/login" element={<AdminLoginPage />} />
+      {/* Admin Login Route (Guarded for public only - redirects auth users to /admin/dashboard) */}
+      <Route element={<PublicOnlyAdminRoute />}>
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+      </Route>
 
-      {/* Admin Console Routes */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="dashboard" element={<AdminDashboardPage />} />
-        <Route path="products" element={<AdminProductsPage />} />
-        <Route path="categories" element={<AdminCategoriesPage />} />
-        <Route path="enquiries" element={<AdminEnquiriesPage />} />
+      {/* Protected Admin Routes (Guarded by ProtectedRoute - redirects unauthenticated users to /admin/login) */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboardPage />} />
+          <Route path="products" element={<AdminProductsPage />} />
+          <Route path="categories" element={<AdminCategoriesPage />} />
+          <Route path="enquiries" element={<AdminEnquiriesPage />} />
+        </Route>
       </Route>
 
       {/* Fallback 404 Route */}
