@@ -13,11 +13,13 @@ import {
   getDocs,
   getDoc,
   addDoc,
+  updateDoc,
+  deleteDoc,
   query,
   orderBy,
 } from 'firebase/firestore';
 import type { QueryDocumentSnapshot } from 'firebase/firestore';
-import { db, isFirebaseConfigured } from '../lib/firebase';
+import { db, auth, isFirebaseConfigured } from '../lib/firebase';
 import type { ProductCategory, ProductAvailability } from '../data/products';
 
 // Collection Constants
@@ -125,21 +127,98 @@ export const getFirestoreProductById = async (id: string): Promise<FirestoreProd
   }
 };
 
+/**
+ * Helper to remove undefined values from objects before writing to Firestore.
+ * Firestore Web SDK rejects objects containing properties with `undefined` values.
+ */
+const sanitizeForFirestore = <T extends Record<string, unknown>>(obj: T): Record<string, unknown> => {
+  const sanitized: Record<string, unknown> = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] !== undefined) {
+      sanitized[key] = obj[key];
+    }
+  });
+  return sanitized;
+};
+
 export const addFirestoreProduct = async (
-  productData: Omit<FirestoreProduct, 'id'>
+  productData: Omit<FirestoreProduct, 'id' | 'createdAt'> & { createdAt?: string }
 ): Promise<{ success: boolean; id?: string; error?: string }> => {
   if (!isFirebaseConfigured()) {
     return { success: false, error: 'Firebase is not configured.' };
   }
 
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated with Firebase Auth. Please sign in again.',
+    };
+  }
+
   try {
-    const docRef = await addDoc(collection(db, COLLECTIONS.PRODUCTS), {
+    const rawPayload = {
       ...productData,
       createdAt: productData.createdAt || new Date().toISOString(),
-    });
+    };
+    const cleanPayload = sanitizeForFirestore(rawPayload as Record<string, unknown>);
+
+    const docRef = await addDoc(collection(db, COLLECTIONS.PRODUCTS), cleanPayload);
     return { success: true, id: docRef.id };
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Failed to add product';
+    console.error('addFirestoreProduct Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to add product to Firestore.';
+    return { success: false, error: msg };
+  }
+};
+
+export const updateFirestoreProduct = async (
+  id: string,
+  productData: Partial<Omit<FirestoreProduct, 'id'>>
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated with Firebase Auth. Please sign in again.',
+    };
+  }
+
+  try {
+    const cleanPayload = sanitizeForFirestore(productData as Record<string, unknown>);
+    const docRef = doc(db, COLLECTIONS.PRODUCTS, id);
+    await updateDoc(docRef, cleanPayload);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('updateFirestoreProduct Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to update product in Firestore.';
+    return { success: false, error: msg };
+  }
+};
+
+export const deleteFirestoreProduct = async (
+  id: string
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated with Firebase Auth. Please sign in again.',
+    };
+  }
+
+  try {
+    const docRef = doc(db, COLLECTIONS.PRODUCTS, id);
+    await deleteDoc(docRef);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('deleteFirestoreProduct Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to delete product from Firestore.';
     return { success: false, error: msg };
   }
 };
