@@ -51,10 +51,12 @@ export interface FirestoreProduct {
 
 export interface FirestoreCategory {
   id: string;
-  name: ProductCategory;
+  name: string;
   description?: string;
-  displayOrder: number;
-  active: boolean;
+  displayOrder?: number;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type CustomRequestStatus =
@@ -439,6 +441,123 @@ export const deleteEnquiry = async (
   } catch (err: unknown) {
     console.error('deleteEnquiry Error:', err);
     const msg = err instanceof Error ? err.message : 'Failed to delete enquiry';
+    return { success: false, error: msg };
+  }
+};
+
+/**
+ * ============================================================================
+ * CATEGORIES COLLECTION OPERATIONS
+ * ============================================================================
+ */
+
+export const getCategories = async (): Promise<FirestoreCategory[]> => {
+  if (!isFirebaseConfigured()) return [];
+
+  try {
+    const q = query(collection(db, COLLECTIONS.CATEGORIES));
+    const snapshot = await getDocs(q);
+
+    const categories = snapshot.docs.map((docSnap: QueryDocumentSnapshot) => ({
+      id: docSnap.id,
+      ...(docSnap.data() as Omit<FirestoreCategory, 'id'>),
+    }));
+
+    // Sort alphabetically by name ascending
+    categories.sort((a, b) => a.name.localeCompare(b.name));
+    return categories;
+  } catch (err: unknown) {
+    console.error('getCategories Error:', err);
+    return [];
+  }
+};
+
+export const addCategory = async (
+  categoryData: Omit<FirestoreCategory, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<{ success: boolean; id?: string; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const now = new Date().toISOString();
+    const rawPayload = {
+      ...categoryData,
+      active: categoryData.active !== undefined ? categoryData.active : true,
+      createdAt: now,
+      updatedAt: now,
+    };
+    const cleanPayload = sanitizeForFirestore(rawPayload as Record<string, unknown>);
+
+    const docRef = await addDoc(collection(db, COLLECTIONS.CATEGORIES), cleanPayload);
+    return { success: true, id: docRef.id };
+  } catch (err: unknown) {
+    console.error('addCategory Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to add category';
+    return { success: false, error: msg };
+  }
+};
+
+export const updateCategory = async (
+  id: string,
+  updates: Partial<Omit<FirestoreCategory, 'id'>>
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const rawPayload = {
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+    const cleanPayload = sanitizeForFirestore(rawPayload as Record<string, unknown>);
+
+    const docRef = doc(db, COLLECTIONS.CATEGORIES, id);
+    await updateDoc(docRef, cleanPayload);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('updateCategory Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to update category';
+    return { success: false, error: msg };
+  }
+};
+
+export const deleteCategory = async (
+  id: string
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const docRef = doc(db, COLLECTIONS.CATEGORIES, id);
+    await deleteDoc(docRef);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('deleteCategory Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to delete category';
     return { success: false, error: msg };
   }
 };

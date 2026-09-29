@@ -17,7 +17,8 @@ export type ProductCategory =
   | 'Chains'
   | 'Pendants'
   | 'Bridal Jewellery'
-  | 'Jewellery Sets';
+  | 'Jewellery Sets'
+  | (string & {});
 
 export type ProductAvailability = 'In Stock' | 'Custom Order' | 'Limited Edition';
 

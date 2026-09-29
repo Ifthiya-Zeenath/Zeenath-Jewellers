@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CATEGORIES } from '../../data/products';
+import { getCategories } from '../../services/firestoreService';
 
 interface CategoryFilterProps {
   selectedCategory: string;
@@ -12,7 +13,33 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   onSelectCategory,
   productCounts,
 }) => {
-  const allCategories = ['All', ...CATEGORIES];
+  const [categoriesList, setCategoriesList] = useState<string[]>(CATEGORIES);
+
+  useEffect(() => {
+    let isMounted = true;
+    getCategories()
+      .then((fsCategories) => {
+        if (!isMounted) return;
+        const activeCatNames = fsCategories
+          .filter((c) => c.active !== false)
+          .map((c) => c.name.trim());
+
+        if (activeCatNames.length > 0) {
+          // Combine existing static categories with any active Firestore categories cleanly
+          const combined = Array.from(new Set([...CATEGORIES, ...activeCatNames]));
+          setCategoriesList(combined);
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not load categories from Firestore, using static list fallback:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const allCategories = ['All', ...categoriesList];
 
   return (
     <div className="w-full">
