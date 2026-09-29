@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Phone, Sparkles } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../../data/products';
 import type { Product } from '../../data/products';
+import { getFirestoreProducts } from '../../services/firestoreService';
 import { SearchBar } from '../../components/shop/SearchBar';
 import { CategoryFilter } from '../../components/shop/CategoryFilter';
 import { SortSelect } from '../../components/shop/SortSelect';
@@ -14,18 +15,49 @@ export const ShopPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [sortOption, setSortOption] = useState<SortOption>('featured');
+  const [productsList, setProductsList] = useState<Product[]>(MOCK_PRODUCTS);
+
+  useEffect(() => {
+    let isMounted = true;
+    getFirestoreProducts().then((fsProducts) => {
+      if (isMounted && fsProducts.length > 0) {
+        // Map Firestore products to Product interface
+        const mapped: Product[] = fsProducts.map((p) => ({
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          craftsmanshipNotes: p.craftsmanshipNotes,
+          hallmarkInfo: p.hallmarkInfo,
+          price: p.price,
+          category: p.category,
+          purity: p.purity,
+          weight: p.weight,
+          productCode: p.productCode,
+          image: p.image,
+          images: p.images || [p.image],
+          featured: p.featured,
+          availability: p.availability,
+          createdAt: p.createdAt,
+        }));
+        setProductsList(mapped);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Compute category item counts based on search query
   const categoryCounts = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     const baseProducts = query
-      ? MOCK_PRODUCTS.filter(
+      ? productsList.filter(
           (p) =>
             p.name.toLowerCase().includes(query) ||
             p.productCode.toLowerCase().includes(query) ||
             p.category.toLowerCase().includes(query)
         )
-      : MOCK_PRODUCTS;
+      : productsList;
 
     const counts: Record<string, number> = { All: baseProducts.length };
     baseProducts.forEach((p) => {
@@ -33,11 +65,11 @@ export const ShopPage: React.FC = () => {
     });
 
     return counts;
-  }, [searchQuery]);
+  }, [searchQuery, productsList]);
 
   // Filter & Sort Products
   const filteredAndSortedProducts = useMemo(() => {
-    let result: Product[] = [...MOCK_PRODUCTS];
+    let result: Product[] = [...productsList];
 
     // 1. Category Filter
     if (selectedCategory !== 'All') {
@@ -98,7 +130,7 @@ export const ShopPage: React.FC = () => {
               </p>
             </div>
             <div className="text-[11px] font-mono text-gray-500 whitespace-nowrap bg-white/80 px-3 py-1 border border-[#C6A15B]/20 rounded-xs w-fit">
-              Showing <strong className="text-[#121212]">{filteredAndSortedProducts.length}</strong> of {MOCK_PRODUCTS.length} Items
+              Showing <strong className="text-[#121212]">{filteredAndSortedProducts.length}</strong> of {productsList.length} Items
             </div>
           </div>
         </div>

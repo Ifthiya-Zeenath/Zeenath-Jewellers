@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Phone,
@@ -12,6 +12,8 @@ import {
   Share2,
 } from 'lucide-react';
 import { getProductById, formatPrice } from '../../data/products';
+import type { Product } from '../../data/products';
+import { getFirestoreProductById } from '../../services/firestoreService';
 import { Breadcrumbs } from '../../components/product/Breadcrumbs';
 import { ImageGallery } from '../../components/product/ImageGallery';
 import { RelatedProducts } from '../../components/product/RelatedProducts';
@@ -22,10 +24,64 @@ export const ProductDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'craftsmanship' | 'hallmark'>('description');
   const [copied, setCopied] = useState(false);
 
-  const product = useMemo(() => {
+  const [product, setProduct] = useState<Product | undefined>(() => {
     if (!id) return undefined;
     return getProductById(id);
+  });
+  const [loading, setLoading] = useState<boolean>(!product && Boolean(id));
+
+  useEffect(() => {
+    if (!id) return;
+    const mockMatch = getProductById(id);
+    if (mockMatch) {
+      setProduct(mockMatch);
+      setLoading(false);
+      return;
+    }
+
+    // Try fetching from Firestore
+    setLoading(true);
+    let isMounted = true;
+    getFirestoreProductById(id).then((fsItem) => {
+      if (isMounted) {
+        if (fsItem) {
+          setProduct({
+            id: fsItem.id,
+            name: fsItem.name,
+            description: fsItem.description,
+            craftsmanshipNotes: fsItem.craftsmanshipNotes,
+            hallmarkInfo: fsItem.hallmarkInfo,
+            price: fsItem.price,
+            category: fsItem.category,
+            purity: fsItem.purity,
+            weight: fsItem.weight,
+            productCode: fsItem.productCode,
+            image: fsItem.image,
+            images: fsItem.images || [fsItem.image],
+            featured: fsItem.featured,
+            availability: fsItem.availability,
+            createdAt: fsItem.createdAt,
+          });
+        } else {
+          setProduct(undefined);
+        }
+        setLoading(false);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-4">
+        <div className="w-10 h-10 border-2 border-[#C6A15B] border-t-transparent rounded-full animate-spin mx-auto" />
+        <p className="text-xs text-gray-500 font-mono">Loading product details from catalog...</p>
+      </div>
+    );
+  }
 
   // Luxury 404 State if Product is Not Found
   if (!product) {
