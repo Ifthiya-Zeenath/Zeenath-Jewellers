@@ -34,6 +34,11 @@ export const ProductTable: React.FC<ProductTableProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [availabilityFilter, setAvailabilityFilter] = useState<string>('All');
 
+  const allCategoryOptions = useMemo(() => {
+    const present = products.map((p) => p.category).filter(Boolean);
+    return Array.from(new Set([...present, ...CATEGORIES]));
+  }, [products]);
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       // Category filter
@@ -95,7 +100,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
               className="bg-gray-900 border border-gray-800 rounded px-3 py-2 text-xs text-gray-300 focus:outline-none focus:border-[#C6A15B]"
             >
               <option value="All">All Categories ({products.length})</option>
-              {CATEGORIES.map((cat) => (
+              {allCategoryOptions.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, Sparkles, AlertCircle, Image as ImageIcon } from 'lucide-react';
 import type { FirestoreProduct } from '../../services/firestoreService';
+import { getCategories } from '../../services/firestoreService';
 import { CATEGORIES } from '../../data/products';
-import type { ProductCategory, ProductAvailability } from '../../data/products';
+import type { ProductAvailability } from '../../data/products';
 
 interface ProductFormModalProps {
   isOpen: boolean;
@@ -23,7 +24,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [productCode, setProductCode] = useState('');
-  const [category, setCategory] = useState<ProductCategory>('Rings');
+  const [category, setCategory] = useState<string>('Rings');
+  const [availableCategories, setAvailableCategories] = useState<string[]>(CATEGORIES);
   const [price, setPrice] = useState<string>('');
   const [purity, setPurity] = useState('22K Hallmarked Gold');
   const [weight, setWeight] = useState('');
@@ -36,6 +38,21 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
   const [formError, setFormError] = useState<string | null>(null);
   const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    getCategories().then((cats) => {
+      if (isMounted && cats.length > 0) {
+        const catNames = Array.from(
+          new Set([...cats.filter((c) => c.active !== false).map((c) => c.name), ...CATEGORIES])
+        );
+        setAvailableCategories(catNames);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (initialData) {
@@ -198,10 +215,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               </label>
               <select
                 value={category}
-                onChange={(e) => setCategory(e.target.value as ProductCategory)}
+                onChange={(e) => setCategory(e.target.value)}
                 className="w-full bg-gray-950 border border-gray-800 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[#C6A15B]"
               >
-                {CATEGORIES.map((cat) => (
+                {availableCategories.map((cat) => (
                   <option key={cat} value={cat}>
                     {cat}
                   </option>
