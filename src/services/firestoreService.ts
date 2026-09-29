@@ -57,8 +57,23 @@ export interface FirestoreCategory {
   active: boolean;
 }
 
+export type CustomRequestStatus =
+  | 'pending'
+  | 'contacted'
+  | 'in_progress'
+  | 'completed'
+  | 'cancelled';
+
+export const CUSTOM_REQUEST_STATUS_LABELS: Record<CustomRequestStatus, string> = {
+  pending: 'Pending',
+  contacted: 'Contacted',
+  in_progress: 'In Progress',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+};
+
 export interface FirestoreCustomRequest {
-  id?: string;
+  id: string;
   customerName: string;
   phone: string;
   email: string;
@@ -68,7 +83,7 @@ export interface FirestoreCustomRequest {
   preferredCompletionDate?: string;
   designDescription: string;
   specialRequirements?: string;
-  status: 'pending' | 'reviewed' | 'quoted' | 'completed';
+  status: CustomRequestStatus;
   createdAt: string;
 }
 
@@ -237,14 +252,86 @@ export const submitCustomRequestToFirestore = async (
   }
 
   try {
-    const docRef = await addDoc(collection(db, COLLECTIONS.CUSTOM_REQUESTS), {
+    const rawPayload = {
       ...requestData,
-      status: 'pending',
+      status: 'pending' as const,
       createdAt: new Date().toISOString(),
-    });
+    };
+    const cleanPayload = sanitizeForFirestore(rawPayload as Record<string, unknown>);
+
+    const docRef = await addDoc(collection(db, COLLECTIONS.CUSTOM_REQUESTS), cleanPayload);
     return { success: true, id: docRef.id };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Failed to submit custom request';
+    return { success: false, error: msg };
+  }
+};
+
+export const getCustomRequests = async (): Promise<FirestoreCustomRequest[]> => {
+  if (!isFirebaseConfigured()) return [];
+
+  try {
+    const q = query(collection(db, COLLECTIONS.CUSTOM_REQUESTS), orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((docSnap: QueryDocumentSnapshot) => ({
+      id: docSnap.id,
+      ...(docSnap.data() as Omit<FirestoreCustomRequest, 'id'>),
+    }));
+  } catch (err: unknown) {
+    console.error('getCustomRequests Error:', err);
+    throw err;
+  }
+};
+
+export const updateCustomRequest = async (
+  id: string,
+  updates: Partial<Omit<FirestoreCustomRequest, 'id'>>
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const cleanPayload = sanitizeForFirestore(updates as Record<string, unknown>);
+    const docRef = doc(db, COLLECTIONS.CUSTOM_REQUESTS, id);
+    await updateDoc(docRef, cleanPayload);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('updateCustomRequest Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to update custom request';
+    return { success: false, error: msg };
+  }
+};
+
+export const deleteCustomRequest = async (
+  id: string
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const docRef = doc(db, COLLECTIONS.CUSTOM_REQUESTS, id);
+    await deleteDoc(docRef);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('deleteCustomRequest Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to delete custom request';
     return { success: false, error: msg };
   }
 };

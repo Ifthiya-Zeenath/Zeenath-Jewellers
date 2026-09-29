@@ -14,6 +14,7 @@ import {
 import { ImageUploadDropzone } from '../../components/custom/ImageUploadDropzone';
 import type { ReferenceImage } from '../../components/custom/ImageUploadDropzone';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
+import { submitCustomRequestToFirestore } from '../../services/firestoreService';
 
 export interface CustomRequestPayload {
   customerName: string;
@@ -143,7 +144,7 @@ export const CustomJewelleryPage: React.FC = () => {
   };
 
   // Submit Handler
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -156,12 +157,31 @@ export const CustomJewelleryPage: React.FC = () => {
 
     setIsSubmitting(true);
 
-    // Simulate async network request (Future Firestore & Storage call)
-    setTimeout(() => {
+    try {
+      const res = await submitCustomRequestToFirestore({
+        customerName: formData.customerName.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        jewelleryType: formData.jewelleryType,
+        metalType: formData.metalType,
+        budgetRange: formData.budgetRange,
+        preferredCompletionDate: formData.preferredCompletionDate.trim() || undefined,
+        designDescription: formData.designDescription.trim(),
+        specialRequirements: formData.specialRequirements.trim() || undefined,
+      });
+
+      if (res.success) {
+        setIsSubmitted(true);
+        window.scrollTo({ top: 100, behavior: 'smooth' });
+      } else {
+        alert(`Failed to submit request: ${res.error || 'Unknown error'}`);
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Submission failed';
+      alert(`Submission error: ${msg}`);
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      window.scrollTo({ top: 100, behavior: 'smooth' });
-    }, 800);
+    }
   };
 
   // Reset Form

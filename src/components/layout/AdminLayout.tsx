@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, Layers, MessageSquare, ArrowLeft, Shield, LogOut, User as UserIcon } from 'lucide-react';
+import { LayoutDashboard, Package, Layers, MessageSquare, ArrowLeft, Shield, LogOut, User as UserIcon, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export const AdminLayout: React.FC = () => {
@@ -16,6 +16,7 @@ export const AdminLayout: React.FC = () => {
   const adminNav = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Products', path: '/admin/products', icon: Package },
+    { name: 'Custom Requests', path: '/admin/custom-requests', icon: Sparkles },
     { name: 'Categories', path: '/admin/categories', icon: Layers },
     { name: 'Enquiries', path: '/admin/enquiries', icon: MessageSquare },
   ];

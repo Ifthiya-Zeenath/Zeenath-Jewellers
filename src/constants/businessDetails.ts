@@ -46,3 +46,21 @@ export const getWhatsAppEnquiryUrl = (message?: string): string => {
   const msg = message ? message : defaultMsg;
   return `https://wa.me/${BUSINESS_DETAILS.whatsappNumberClean}?text=${encodeURIComponent(msg)}`;
 };
+
+/**
+ * Helper to build custom WhatsApp link targeting a customer's phone number
+ */
+export const getCustomerWhatsAppUrl = (
+  customerPhone: string,
+  customerName?: string,
+  jewelleryType?: string
+): string => {
+  let cleanPhone = customerPhone.replace(/[^0-9]/g, '');
+  if (cleanPhone.startsWith('0')) {
+    cleanPhone = '94' + cleanPhone.substring(1);
+  }
+  const defaultMsg = customerName
+    ? `Hello ${customerName}, this is Zeenath Jewellers regarding your custom ${jewelleryType || 'jewellery'} request.`
+    : 'Hello, this is Zeenath Jewellers regarding your custom jewellery request.';
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(defaultMsg)}`;
+};

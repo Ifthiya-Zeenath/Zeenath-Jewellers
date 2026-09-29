@@ -21,6 +21,7 @@ import { CustomJewelleryPage } from '../pages/public/CustomJewelleryPage';
 import { AdminLoginPage } from '../pages/admin/AdminLoginPage';
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminProductsPage } from '../pages/admin/AdminProductsPage';
+import { AdminCustomRequestsPage } from '../pages/admin/AdminCustomRequestsPage';
 import { AdminCategoriesPage } from '../pages/admin/AdminCategoriesPage';
 import { AdminEnquiriesPage } from '../pages/admin/AdminEnquiriesPage';
 
@@ -48,6 +49,7 @@ export const AppRoutes: React.FC = () => {
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<AdminDashboardPage />} />
           <Route path="products" element={<AdminProductsPage />} />
+          <Route path="custom-requests" element={<AdminCustomRequestsPage />} />
           <Route path="categories" element={<AdminCategoriesPage />} />
           <Route path="enquiries" element={<AdminEnquiriesPage />} />
         </Route>
