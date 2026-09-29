@@ -87,15 +87,24 @@ export interface FirestoreCustomRequest {
   createdAt: string;
 }
 
+export type EnquiryStatus = 'new' | 'contacted' | 'resolved' | 'cancelled';
+
+export const ENQUIRY_STATUS_LABELS: Record<EnquiryStatus, string> = {
+  new: 'New',
+  contacted: 'Contacted',
+  resolved: 'Resolved',
+  cancelled: 'Cancelled',
+};
+
 export interface FirestoreEnquiry {
-  id?: string;
+  id: string;
   customerName: string;
   phone: string;
   email?: string;
   productCode?: string;
   productName?: string;
   message: string;
-  status: 'new' | 'contacted' | 'resolved';
+  status: EnquiryStatus;
   createdAt: string;
 }
 
@@ -350,14 +359,86 @@ export const submitEnquiryToFirestore = async (
   }
 
   try {
-    const docRef = await addDoc(collection(db, COLLECTIONS.ENQUIRIES), {
+    const rawPayload = {
       ...enquiryData,
-      status: 'new',
+      status: 'new' as const,
       createdAt: new Date().toISOString(),
-    });
+    };
+    const cleanPayload = sanitizeForFirestore(rawPayload as Record<string, unknown>);
+
+    const docRef = await addDoc(collection(db, COLLECTIONS.ENQUIRIES), cleanPayload);
     return { success: true, id: docRef.id };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Failed to submit enquiry';
+    return { success: false, error: msg };
+  }
+};
+
+export const getEnquiries = async (): Promise<FirestoreEnquiry[]> => {
+  if (!isFirebaseConfigured()) return [];
+
+  try {
+    const q = query(collection(db, COLLECTIONS.ENQUIRIES), orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((docSnap: QueryDocumentSnapshot) => ({
+      id: docSnap.id,
+      ...(docSnap.data() as Omit<FirestoreEnquiry, 'id'>),
+    }));
+  } catch (err: unknown) {
+    console.error('getEnquiries Error:', err);
+    throw err;
+  }
+};
+
+export const updateEnquiry = async (
+  id: string,
+  updates: Partial<Omit<FirestoreEnquiry, 'id'>>
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const cleanPayload = sanitizeForFirestore(updates as Record<string, unknown>);
+    const docRef = doc(db, COLLECTIONS.ENQUIRIES, id);
+    await updateDoc(docRef, cleanPayload);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('updateEnquiry Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to update enquiry';
+    return { success: false, error: msg };
+  }
+};
+
+export const deleteEnquiry = async (
+  id: string
+): Promise<{ success: boolean; error?: string }> => {
+  if (!isFirebaseConfigured()) {
+    return { success: false, error: 'Firebase is not configured.' };
+  }
+
+  if (!auth.currentUser) {
+    return {
+      success: false,
+      error: 'Admin user is not authenticated. Please sign in again.',
+    };
+  }
+
+  try {
+    const docRef = doc(db, COLLECTIONS.ENQUIRIES, id);
+    await deleteDoc(docRef);
+    return { success: true };
+  } catch (err: unknown) {
+    console.error('deleteEnquiry Error:', err);
+    const msg = err instanceof Error ? err.message : 'Failed to delete enquiry';
     return { success: false, error: msg };
   }
 };

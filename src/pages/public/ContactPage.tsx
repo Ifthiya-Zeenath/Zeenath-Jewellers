@@ -1,8 +1,61 @@
-import React from 'react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
+import { submitEnquiryToFirestore } from '../../services/firestoreService';
 
 export const ContactPage: React.FC = () => {
+  const [customerName, setCustomerName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError(null);
+
+    if (!customerName.trim()) {
+      setFormError('Please enter your full name.');
+      return;
+    }
+    if (!phone.trim()) {
+      setFormError('Please enter your phone/WhatsApp number.');
+      return;
+    }
+    if (!message.trim()) {
+      setFormError('Please enter your enquiry message.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await submitEnquiryToFirestore({
+        customerName: customerName.trim(),
+        phone: phone.trim(),
+        email: email.trim() || undefined,
+        message: message.trim(),
+      });
+
+      if (res.success) {
+        setIsSubmitted(true);
+        setCustomerName('');
+        setPhone('');
+        setEmail('');
+        setMessage('');
+      } else {
+        setFormError(res.error || 'Failed to submit enquiry. Please try again.');
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Submission failed';
+      setFormError(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       {/* Header */}
@@ -95,49 +148,109 @@ export const ContactPage: React.FC = () => {
         {/* Form */}
         <div className="bg-white rounded-xl border border-[#C6A15B]/30 p-8 sm:p-10 shadow-sm space-y-6">
           <h3 className="font-serif text-2xl font-bold text-[#121212]">Send Us an Enquiry</h3>
-          
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
-                Your Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your full name"
-                className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
-              />
-            </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
-                Phone / WhatsApp Number
-              </label>
-              <input
-                type="text"
-                placeholder={`e.g. ${BUSINESS_DETAILS.phone}`}
-                className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
-              />
+          {isSubmitted ? (
+            <div className="bg-[#FAF8F3] border border-[#C6A15B]/30 rounded-lg p-6 text-center space-y-4">
+              <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-serif font-bold text-lg text-[#121212]">Enquiry Submitted</h4>
+                <p className="text-xs text-gray-600">
+                  Thank you for reaching out to Zeenath Jewellers. Our team will review your message and contact you shortly.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsSubmitted(false)}
+                className="px-4 py-2 bg-[#121212] text-white text-xs font-semibold uppercase tracking-wider rounded cursor-pointer hover:bg-[#C6A15B] transition-colors"
+              >
+                Send Another Enquiry
+              </button>
             </div>
+          ) : (
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {formError && (
+                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{formError}</span>
+                </div>
+              )}
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
-                Message or Jewellery Requirements
-              </label>
-              <textarea
-                rows={4}
-                placeholder="Tell us about the gold design, bridal set, or custom piece you require..."
-                className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
-              ></textarea>
-            </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
+                  required
+                />
+              </div>
 
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#C6A15B] text-white font-semibold text-xs uppercase tracking-widest hover:bg-[#A88645] transition-colors rounded shadow"
-            >
-              <Send className="w-4 h-4" />
-              <span>Send Message</span>
-            </button>
-          </form>
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Phone / WhatsApp Number *
+                </label>
+                <input
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder={`e.g. ${BUSINESS_DETAILS.phone}`}
+                  className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@example.com"
+                  className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
+                  Message or Jewellery Requirements *
+                </label>
+                <textarea
+                  rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Tell us about the gold design, bridal set, or custom piece you require..."
+                  className="w-full px-4 py-2.5 text-xs border border-gray-300 rounded focus:border-[#C6A15B] focus:outline-none"
+                  required
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#C6A15B] text-white font-semibold text-xs uppercase tracking-widest hover:bg-[#A88645] transition-colors rounded shadow disabled:opacity-50 cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
