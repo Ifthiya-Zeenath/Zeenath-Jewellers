@@ -216,11 +216,13 @@ export const AdminDashboardPage: React.FC = () => {
             <div>
               {isLoading ? (
                 <div className="h-7 w-16 bg-gray-800 animate-pulse rounded" />
+              ) : error ? (
+                <p className="text-xl font-bold text-red-400 font-mono tracking-tight">--</p>
               ) : (
                 <p className="text-2xl font-bold text-white tracking-tight">{totalProductsCount}</p>
               )}
               <p className="text-[11px] text-gray-400 mt-1 font-mono">
-                {totalCategoriesCount} Categories active
+                {error ? 'Fetch error' : `${totalCategoriesCount} Categories active`}
               </p>
             </div>
           </div>
@@ -238,6 +240,8 @@ export const AdminDashboardPage: React.FC = () => {
             <div>
               {isLoading ? (
                 <div className="h-7 w-16 bg-gray-800 animate-pulse rounded" />
+              ) : error ? (
+                <p className="text-xl font-bold text-red-400 font-mono tracking-tight">--</p>
               ) : (
                 <p className="text-2xl font-bold text-emerald-400 tracking-tight">
                   {availableProductsCount}
@@ -260,6 +264,8 @@ export const AdminDashboardPage: React.FC = () => {
             <div>
               {isLoading ? (
                 <div className="h-7 w-16 bg-gray-800 animate-pulse rounded" />
+              ) : error ? (
+                <p className="text-xl font-bold text-red-400 font-mono tracking-tight">--</p>
               ) : (
                 <p className="text-2xl font-bold text-rose-400 tracking-tight">
                   {unavailableProductsCount}
@@ -282,6 +288,8 @@ export const AdminDashboardPage: React.FC = () => {
             <div>
               {isLoading ? (
                 <div className="h-7 w-16 bg-gray-800 animate-pulse rounded" />
+              ) : error ? (
+                <p className="text-xl font-bold text-red-400 font-mono tracking-tight">--</p>
               ) : (
                 <p className="text-2xl font-bold text-amber-400 tracking-tight">
                   {featuredProductsCount}
@@ -304,13 +312,15 @@ export const AdminDashboardPage: React.FC = () => {
             <div>
               {isLoading ? (
                 <div className="h-7 w-16 bg-gray-800 animate-pulse rounded" />
+              ) : error ? (
+                <p className="text-xl font-bold text-red-400 font-mono tracking-tight">--</p>
               ) : (
                 <p className="text-2xl font-bold text-sky-400 tracking-tight">
                   {newEnquiriesCount}
                 </p>
               )}
               <p className="text-[11px] text-gray-400 mt-1 font-mono">
-                {enquiries.length} total messages
+                {error ? 'Fetch error' : `${enquiries.length} total messages`}
               </p>
             </div>
           </div>
@@ -328,13 +338,15 @@ export const AdminDashboardPage: React.FC = () => {
             <div>
               {isLoading ? (
                 <div className="h-7 w-16 bg-gray-800 animate-pulse rounded" />
+              ) : error ? (
+                <p className="text-xl font-bold text-red-400 font-mono tracking-tight">--</p>
               ) : (
                 <p className="text-2xl font-bold text-purple-400 tracking-tight">
                   {pendingRequestsCount}
                 </p>
               )}
               <p className="text-[11px] text-gray-400 mt-1 font-mono">
-                {customRequests.length} custom orders
+                {error ? 'Fetch error' : `${customRequests.length} custom orders`}
               </p>
             </div>
           </div>
@@ -450,6 +462,11 @@ export const AdminDashboardPage: React.FC = () => {
                   <div key={i} className="h-16 bg-gray-900 animate-pulse rounded-lg" />
                 ))}
               </div>
+            ) : error ? (
+              <div className="py-8 text-center space-y-2 bg-red-950/20 border border-red-900/40 rounded-lg p-4">
+                <AlertCircle className="w-5 h-5 text-red-400 mx-auto" />
+                <p className="text-xs text-red-300 font-medium">Failed to load customer enquiries</p>
+              </div>
             ) : enquiries.length > 0 ? (
               <div className="divide-y divide-gray-800/80">
                 {enquiries.slice(0, 5).map((enquiry) => (
@@ -535,6 +552,11 @@ export const AdminDashboardPage: React.FC = () => {
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="h-16 bg-gray-900 animate-pulse rounded-lg" />
                 ))}
+              </div>
+            ) : error ? (
+              <div className="py-8 text-center space-y-2 bg-red-950/20 border border-red-900/40 rounded-lg p-4">
+                <AlertCircle className="w-5 h-5 text-red-400 mx-auto" />
+                <p className="text-xs text-red-300 font-medium">Failed to load custom requests</p>
               </div>
             ) : customRequests.length > 0 ? (
               <div className="divide-y divide-gray-800/80">
