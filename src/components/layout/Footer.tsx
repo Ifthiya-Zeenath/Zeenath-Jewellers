@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
-import logoFullImg from '../../assets/logo-full.jpg';
+import logoFullImg from '../../assets/logo-full.PNG';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 
 export const Footer: React.FC = () => {

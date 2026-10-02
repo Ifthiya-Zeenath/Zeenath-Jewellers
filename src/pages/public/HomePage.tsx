@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Phone, Sparkles, Gem, ShieldCheck, HeartHandshake } from 'lucide-react';
 
 import heroBanner from '../../assets/hero-banner.jpg';
-import logoFull from '../../assets/logo-full.jpg';
+import logoFull from '../../assets/logo-full.PNG';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, ShoppingBag } from 'lucide-react';
 
-import logoMark from '../../assets/logo.jpg';
+import logoMark from '../../assets/logo.png';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 
 export const Navbar: React.FC = () => {
