@@ -22,8 +22,10 @@ import {
 import type { FirestoreCategory, FirestoreProduct } from '../../services/firestoreService';
 import { CategoryFormModal } from '../../components/admin/CategoryFormModal';
 import { DeleteCategoryConfirmModal } from '../../components/admin/DeleteCategoryConfirmModal';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AdminCategoriesPage: React.FC = () => {
+  useDocumentTitle('Admin Categories | Zeenath Jewellers');
   const [categories, setCategories] = useState<FirestoreCategory[]>([]);
   const [products, setProducts] = useState<FirestoreProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);

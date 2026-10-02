@@ -18,6 +18,7 @@ import { Breadcrumbs } from '../../components/product/Breadcrumbs';
 import { ImageGallery } from '../../components/product/ImageGallery';
 import { RelatedProducts } from '../../components/product/RelatedProducts';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,6 +29,11 @@ export const ProductDetailPage: React.FC = () => {
     if (!id) return undefined;
     return getProductById(id);
   });
+
+  useDocumentTitle(
+    product ? `${product.name} | Zeenath Jewellers` : 'Jewellery Details | Zeenath Jewellers',
+    product?.description
+  );
   const [loading, setLoading] = useState<boolean>(!product && Boolean(id));
 
   useEffect(() => {

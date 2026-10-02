@@ -18,6 +18,7 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import {
   getFirestoreProducts,
   getEnquiries,
@@ -36,6 +37,7 @@ import type {
 } from '../../services/firestoreService';
 
 export const AdminDashboardPage: React.FC = () => {
+  useDocumentTitle('Admin Dashboard | Zeenath Jewellers');
   const { user } = useAuth();
 
   // Data states
