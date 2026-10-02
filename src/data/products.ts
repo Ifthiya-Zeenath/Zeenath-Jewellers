@@ -78,7 +78,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'zj-rng-101',
     name: 'Zeenath Sovereign Solitaire Ring',
     description: 'An elegant 22K gold solitaire ring featuring diamond-cut micro facets and certified hallmarked purity. Designed with balance for comfortable daily luxury wear and milestone celebrations.',
-    craftsmanshipNotes: 'Hand-crafted by master goldsmiths in Colombo 7 using 91.6% pure gold alloyed with platinum-group metals for enhanced durability and luster.',
+    craftsmanshipNotes: 'Hand-crafted by master goldsmiths in Hambantota using 91.6% pure gold alloyed with platinum-group metals for enhanced durability and luster.',
     hallmarkInfo: 'Stamped with Sri Lanka National Assay Office 22K Hallmark Certificate and Zeenath Atelier Maker Crest.',
     price: 185000,
     category: 'Rings',

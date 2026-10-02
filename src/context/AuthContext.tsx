@@ -5,6 +5,7 @@ import {
   logoutUser,
   subscribeToAuthState,
   getCurrentUser,
+  sendPasswordReset,
 } from '../services/authService';
 import type { AuthResponse } from '../services/authService';
 
@@ -14,6 +15,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<AuthResponse>;
   logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -45,6 +47,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const resetPassword = async (email: string): Promise<{ success: boolean; error?: string }> => {
+    return await sendPasswordReset(email);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -53,6 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated: Boolean(user),
         login,
         logout,
+        resetPassword,
       }}
     >
       {children}

@@ -279,7 +279,7 @@ export const submitCustomRequestToFirestore = async (
 };
 
 export const getCustomRequests = async (): Promise<FirestoreCustomRequest[]> => {
-  if (!isFirebaseConfigured()) return [];
+  if (!isFirebaseConfigured() || !auth.currentUser) return [];
 
   try {
     const q = query(collection(db, COLLECTIONS.CUSTOM_REQUESTS), orderBy('createdAt', 'desc'));
@@ -377,7 +377,7 @@ export const submitEnquiryToFirestore = async (
 };
 
 export const getEnquiries = async (): Promise<FirestoreEnquiry[]> => {
-  if (!isFirebaseConfigured()) return [];
+  if (!isFirebaseConfigured() || !auth.currentUser) return [];
 
   try {
     const q = query(collection(db, COLLECTIONS.ENQUIRIES), orderBy('createdAt', 'desc'));

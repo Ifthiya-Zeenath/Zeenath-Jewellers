@@ -23,6 +23,58 @@ export interface AuthResponse {
 }
 
 /**
+ * Helper to map Firebase Auth error codes to user-friendly messages
+ */
+export const formatAuthError = (err: unknown): string => {
+  if (!err) return 'An unexpected error occurred.';
+
+  const code = (err as { code?: string })?.code || '';
+  const message = err instanceof Error ? err.message : String(err);
+
+  if (
+    code === 'auth/invalid-credential' ||
+    code === 'auth/wrong-password' ||
+    code === 'auth/user-not-found' ||
+    message.includes('auth/invalid-credential') ||
+    message.includes('auth/wrong-password') ||
+    message.includes('auth/user-not-found')
+  ) {
+    return 'Invalid email or password. Please verify your admin credentials.';
+  }
+
+  if (
+    code === 'auth/invalid-email' ||
+    message.includes('auth/invalid-email')
+  ) {
+    return 'Please enter a valid email address.';
+  }
+
+  if (
+    code === 'auth/too-many-requests' ||
+    message.includes('auth/too-many-requests')
+  ) {
+    return 'Access temporarily disabled due to multiple failed attempts. Please wait a few minutes and try again.';
+  }
+
+  if (
+    code === 'auth/network-request-failed' ||
+    message.includes('auth/network-request-failed')
+  ) {
+    return 'Network connection error. Please check your internet connection and try again.';
+  }
+
+  if (
+    code === 'auth/user-disabled' ||
+    message.includes('auth/user-disabled')
+  ) {
+    return 'This admin account has been disabled. Please contact system administrator.';
+  }
+
+  // Fallback generic error message to avoid exposing internal Firebase details
+  return 'Authentication request failed. Please check your credentials and try again.';
+};
+
+/**
  * Authenticate admin user with Email & Password
  */
 export const loginWithEmail = async (
@@ -32,7 +84,7 @@ export const loginWithEmail = async (
   if (!isFirebaseConfigured()) {
     return {
       success: false,
-      error: 'Firebase credentials are not configured in environment variables.',
+      error: 'Firebase service is not configured. Please check system configuration.',
     };
   }
 
@@ -43,7 +95,7 @@ export const loginWithEmail = async (
       user: credential.user,
     };
   } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
+    const errorMessage = formatAuthError(err);
     return {
       success: false,
       error: errorMessage,
@@ -90,11 +142,13 @@ export const getCurrentUser = (): User | null => {
 /**
  * Send password reset email for an admin email
  */
-export const sendPasswordReset = async (email: string): Promise<{ success: boolean; error?: string }> => {
+export const sendPasswordReset = async (
+  email: string
+): Promise<{ success: boolean; error?: string }> => {
   if (!isFirebaseConfigured()) {
     return {
       success: false,
-      error: 'Firebase is not configured.',
+      error: 'Firebase service is not configured. Please check system configuration.',
     };
   }
 
@@ -102,7 +156,15 @@ export const sendPasswordReset = async (email: string): Promise<{ success: boole
     await sendPasswordResetEmail(auth, email);
     return { success: true };
   } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Password reset failed';
+    const code = (err as { code?: string })?.code || '';
+    const message = err instanceof Error ? err.message : String(err);
+
+    // For security, do not expose account existence if user-not-found occurs
+    if (code === 'auth/user-not-found' || message.includes('auth/user-not-found')) {
+      return { success: true };
+    }
+
+    const errorMessage = formatAuthError(err);
     return { success: false, error: errorMessage };
   }
 };

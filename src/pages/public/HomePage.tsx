@@ -73,7 +73,7 @@ export const HomePage: React.FC = () => {
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white/90 backdrop-blur-md border border-[#C6A15B]/35 rounded-full shadow-xs">
                 <span className="w-2 h-2 rounded-full bg-[#C6A15B] animate-pulse"></span>
                 <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#121212] font-semibold">
-                  Contemporary Fine Gold • <span className="text-[#C6A15B]">Colombo 7 Flagship</span>
+                  Contemporary Fine Gold • <span className="text-[#C6A15B]">Hambantota Flagship</span>
                 </span>
               </div>
 
@@ -103,7 +103,7 @@ export const HomePage: React.FC = () => {
               </div>
 
               <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
-                Discover an unprecedented synthesis of Sri Lankan gold heritage and contemporary luxury aesthetics. Every ornament is meticulously crafted in hallmarked 22K & 24K gold at our Colombo 7 boutique atelier.
+                Discover an unprecedented synthesis of Sri Lankan gold heritage and contemporary luxury aesthetics. Every ornament is meticulously crafted in hallmarked 22K & 24K gold at our Hambantota boutique atelier.
               </p>
 
               {/* Micro-Interactive Gold Purity Chips */}
@@ -187,7 +187,7 @@ export const HomePage: React.FC = () => {
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white tracking-wide">Colombo 7 Boutique</p>
+                    <p className="text-xs font-bold text-white tracking-wide">Hambantota Boutique</p>
                     <p className="text-[10px] text-[#C6A15B]">Exclusive Custom Design</p>
                   </div>
                 </div>
@@ -337,7 +337,7 @@ export const HomePage: React.FC = () => {
                 className="w-full rounded-lg border border-[#C6A15B]/30 shadow-md"
               />
               <div className="absolute -bottom-4 -right-4 bg-[#121212] text-white p-4 rounded-lg shadow-lg border border-[#C6A15B]/40">
-                <p className="font-script text-2xl text-[#C6A15B]">Est. Colombo 7</p>
+                <p className="font-script text-2xl text-[#C6A15B]">Est. Hambantota</p>
               </div>
             </div>
           </div>
