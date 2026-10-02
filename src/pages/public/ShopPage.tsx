@@ -126,7 +126,7 @@ export const ShopPage: React.FC = () => {
                 Explore Our Collection
               </h1>
               <p className="text-xs text-gray-600 font-light mt-0.5">
-                Certified 22K & 24K gold jewellery handcrafted at our Colombo 7 boutique atelier.
+                Certified 22K & 24K gold jewellery handcrafted at our Hambantota boutique atelier.
               </p>
             </div>
             <div className="text-[11px] font-mono text-gray-500 whitespace-nowrap bg-white/80 px-3 py-1 border border-[#C6A15B]/20 rounded-xs w-fit">
@@ -217,7 +217,7 @@ export const ShopPage: React.FC = () => {
               Need a Custom Sovereign Weight or Bespoke Design?
             </h3>
             <p className="text-xs text-white/70 max-w-xl font-light">
-              Send reference sketches or sovereign specifications directly to our Colombo 7 goldsmiths via WhatsApp.
+              Send reference sketches or sovereign specifications directly to our Hambantota goldsmiths via WhatsApp.
             </p>
           </div>
 

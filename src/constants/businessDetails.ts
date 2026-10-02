@@ -14,27 +14,29 @@ export const BUSINESS_DETAILS = {
   brandName: 'Zeenath Jewellers',
   tagline: 'Your gold partner for life.',
 
-  // Temporary Business Contact Information
-  phone: '0776539462',
-  whatsapp: '0776539462',
-  whatsappNumberClean: '94776539462',
-  whatsappUrl: 'https://wa.me/94776539462',
-  email: 'ifthi@gmail.com',
-  address: '65, Bay Street, Colombo 7',
-  location: 'Colombo 7, Sri Lanka',
+  // Official Business Contact Information
+  phone: '+94 77 93 26 428',
+  whatsapp: '+94 77 93 26 428',
+  whatsappNumberClean: '94779326428',
+  whatsappUrl: 'https://wa.me/94779326428',
+  email: 'zeenathjewellers22@gmail.com',
+  address: 'No.31, Wilmot Street, Hambantota.',
+  location: 'Hambantota, Sri Lanka',
 
-  // Temporary Social Handles & Links
+  // Official Social Media Links
   social: {
-    facebook: 'ifthfb',
-    facebookUrl: 'https://facebook.com/ifthfb',
-    instagram: 'ifthis',
-    instagramUrl: 'https://instagram.com/ifthis',
+    facebook: 'Facebook',
+    facebookUrl: 'https://www.facebook.com/share/1C26Rr5oWe/?mibextid=wwXIfr',
+    instagram: 'Instagram',
+    instagramUrl: 'https://www.instagram.com/zeenathjewellers?stkn=aGllbzg0ZHdrY29q&utm_source=qr',
+    tiktok: 'TikTok',
+    tiktokUrl: 'https://www.tiktok.com/@zeenathjewellers.lk?_r=1&_t=ZS-9ABgt5FCdBV',
   },
 
   // Boutique Hours
   hours: {
-    weekdays: 'Monday - Saturday: 9:30 AM - 6:30 PM',
-    weekends: 'Sunday: By Appointment Only',
+    weekdays: 'Monday – Saturday: 8:30 AM – 6:30 PM',
+    weekends: 'Sunday: 8:30 AM – 1:00 PM',
   },
 };
 

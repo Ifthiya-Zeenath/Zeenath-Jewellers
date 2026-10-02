@@ -295,7 +295,7 @@ export const ProductDetailPage: React.FC = () => {
               <div className="space-y-3">
                 <p>
                   {product.craftsmanshipNotes ||
-                    'Hand-crafted by master goldsmiths in Colombo 7 using traditional Sri Lankan techniques alloyed with certified pure precious metals.'}
+                    'Hand-crafted by master goldsmiths in Hambantota using traditional Sri Lankan techniques alloyed with certified pure precious metals.'}
                 </p>
                 <ul className="list-disc pl-5 space-y-1 text-xs text-gray-500">
                   <li>Forged with high-density gold wire for structural integrity</li>

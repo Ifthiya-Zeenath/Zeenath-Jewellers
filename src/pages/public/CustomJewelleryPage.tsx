@@ -15,6 +15,7 @@ import { ImageUploadDropzone } from '../../components/custom/ImageUploadDropzone
 import type { ReferenceImage } from '../../components/custom/ImageUploadDropzone';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { submitCustomRequestToFirestore } from '../../services/firestoreService';
+import { validatePhone, validateEmail } from '../../utils/validation';
 
 export interface CustomRequestPayload {
   customerName: string;
@@ -43,10 +44,13 @@ export const JEWELLERY_TYPES = [
 export const METAL_TYPES = ['22K Gold', '24K Gold', 'White Gold', 'Rose Gold'];
 
 export const BUDGET_RANGES = [
-  'Under LKR 50,000',
-  'LKR 50,000 - 100,000',
-  'LKR 100,000 - 250,000',
-  'LKR 250,000+',
+  'Below Rs. 25,000',
+  'Rs. 25,000 – 50,000',
+  'Rs. 50,000 – 100,000',
+  'Rs. 100,000 – 250,000',
+  'Rs. 250,000 – 500,000',
+  'Above Rs. 500,000',
+  'Prefer not to say',
 ];
 
 export const CustomJewelleryPage: React.FC = () => {
@@ -57,7 +61,7 @@ export const CustomJewelleryPage: React.FC = () => {
     email: '',
     jewelleryType: 'Ring',
     metalType: '22K Gold',
-    budgetRange: 'LKR 100,000 - 250,000',
+    budgetRange: 'Rs. 50,000 – 100,000',
     preferredCompletionDate: '',
     designDescription: '',
     specialRequirements: '',
@@ -117,16 +121,14 @@ export const CustomJewelleryPage: React.FC = () => {
       newErrors.customerName = 'Please enter your full name.';
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Please enter your phone/WhatsApp number.';
-    } else if (!/^[0-9+\s-]{9,}$/.test(formData.phone.trim())) {
-      newErrors.phone = 'Please enter a valid phone number (at least 9 digits).';
+    const phoneResult = validatePhone(formData.phone);
+    if (!phoneResult.isValid) {
+      newErrors.phone = phoneResult.error;
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Please enter your email address.';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      newErrors.email = 'Please enter a valid email address (e.g. name@domain.com).';
+    const emailResult = validateEmail(formData.email, true);
+    if (!emailResult.isValid) {
+      newErrors.email = emailResult.error;
     }
 
     if (!formData.jewelleryType) {
@@ -192,7 +194,7 @@ export const CustomJewelleryPage: React.FC = () => {
       email: '',
       jewelleryType: 'Ring',
       metalType: '22K Gold',
-      budgetRange: 'LKR 100,000 - 250,000',
+      budgetRange: 'Rs. 50,000 – 100,000',
       preferredCompletionDate: '',
       designDescription: '',
       specialRequirements: '',
@@ -224,7 +226,7 @@ Please advise on design consultation and next steps.`;
               <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-white border border-[#C6A15B]/30 rounded-full shadow-2xs">
                 <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
                 <span className="text-[10px] uppercase tracking-[0.22em] text-[#C6A15B] font-bold">
-                  Bespoke Goldsmithing Atelier • Colombo 7
+                  Bespoke Goldsmithing Atelier • Hambantota
                 </span>
               </div>
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#121212] tracking-tight">
@@ -262,7 +264,7 @@ Please advise on design consultation and next steps.`;
                 Thank You, {formData.customerName}!
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 max-w-lg mx-auto font-light leading-relaxed">
-                Your custom jewellery request for a bespoke <strong>{formData.jewelleryType}</strong> has been saved. Our master goldsmiths at Colombo 7 will review your specifications.
+                Your custom jewellery request for a bespoke <strong>{formData.jewelleryType}</strong> has been saved. Our master goldsmiths at Hambantota will review your specifications.
               </p>
             </div>
 
