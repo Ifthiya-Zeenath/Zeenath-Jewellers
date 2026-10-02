@@ -10,8 +10,10 @@ import { ENQUIRY_STATUS_LABELS } from '../../services/firestoreService';
 import { EnquiryTable } from '../../components/admin/EnquiryTable';
 import { EnquiryDetailsModal } from '../../components/admin/EnquiryDetailsModal';
 import { DeleteEnquiryConfirmModal } from '../../components/admin/DeleteEnquiryConfirmModal';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AdminEnquiriesPage: React.FC = () => {
+  useDocumentTitle('Admin Enquiries | Zeenath Jewellers');
   const [enquiries, setEnquiries] = useState<FirestoreEnquiry[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

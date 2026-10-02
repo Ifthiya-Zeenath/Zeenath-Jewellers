@@ -16,6 +16,7 @@ import type { ReferenceImage } from '../../components/custom/ImageUploadDropzone
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { submitCustomRequestToFirestore } from '../../services/firestoreService';
 import { validatePhone, validateEmail } from '../../utils/validation';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export interface CustomRequestPayload {
   customerName: string;
@@ -54,6 +55,11 @@ export const BUDGET_RANGES = [
 ];
 
 export const CustomJewelleryPage: React.FC = () => {
+  useDocumentTitle(
+    'Custom Jewellery | Zeenath Jewellers',
+    'Design bespoke 22K & 24K gold jewellery with master goldsmiths at Zeenath Jewellers in Hambantota, Sri Lanka.'
+  );
+
   // Form State
   const [formData, setFormData] = useState<CustomRequestPayload>({
     customerName: '',

@@ -2,8 +2,13 @@ import React from 'react';
 import { Award, MapPin, HeartHandshake, Phone } from 'lucide-react';
 import logoFull from '../../assets/logo-full.jpg';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AboutPage: React.FC = () => {
+  useDocumentTitle(
+    'About Us | Zeenath Jewellers',
+    'Learn about Zeenath Jewellers — Hambantota\'s premier destination for certified hallmarked 22K and 24K gold jewellery and custom goldsmithing.'
+  );
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       {/* Header */}

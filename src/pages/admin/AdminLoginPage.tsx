@@ -13,8 +13,10 @@ import {
   KeyRound,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AdminLoginPage: React.FC = () => {
+  useDocumentTitle('Admin Login | Zeenath Jewellers');
   const navigate = useNavigate();
   const { login, resetPassword } = useAuth();
 

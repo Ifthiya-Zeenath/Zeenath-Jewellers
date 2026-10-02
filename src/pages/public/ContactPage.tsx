@@ -3,8 +3,13 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, AlertCircle } from 'luc
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { submitEnquiryToFirestore } from '../../services/firestoreService';
 import { validatePhone, validateEmail } from '../../utils/validation';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const ContactPage: React.FC = () => {
+  useDocumentTitle(
+    'Contact Us | Zeenath Jewellers',
+    'Get in touch with Zeenath Jewellers in Hambantota, Sri Lanka. Contact us via phone, email, or WhatsApp for custom jewellery enquiries and gold rate updates.'
+  );
   const [customerName, setCustomerName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');

@@ -10,8 +10,13 @@ import type { SortOption } from '../../components/shop/SortSelect';
 import { ProductCard } from '../../components/shop/ProductCard';
 import { EmptyState } from '../../components/shop/EmptyState';
 import { getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const ShopPage: React.FC = () => {
+  useDocumentTitle(
+    'Shop Jewellery | Zeenath Jewellers',
+    'Browse our certified 22K & 24K gold jewellery collection including rings, necklaces, earrings, bangles, and bridal sets at Zeenath Jewellers.'
+  );
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [sortOption, setSortOption] = useState<SortOption>('featured');

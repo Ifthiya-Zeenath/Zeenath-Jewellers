@@ -5,8 +5,13 @@ import { ArrowRight, Phone, Sparkles, Gem, ShieldCheck, HeartHandshake } from 'l
 import heroBanner from '../../assets/hero-banner.jpg';
 import logoFull from '../../assets/logo-full.jpg';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const HomePage: React.FC = () => {
+  useDocumentTitle(
+    'Zeenath Jewellers | Gold Jewellery in Hambantota',
+    'Discover premium gold jewellery, wedding jewellery, rings, necklaces, bracelets and custom jewellery designs at Zeenath Jewellers in Hambantota, Sri Lanka.'
+  );
   // 9 Required Categories
   const categories = [
     { number: '01', name: 'Rings', detail: 'Solitaire & 22K Bands' },

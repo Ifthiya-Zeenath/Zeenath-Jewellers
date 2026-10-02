@@ -12,8 +12,10 @@ import type { ProductAvailability } from '../../data/products';
 import { ProductTable } from '../../components/admin/ProductTable';
 import { ProductFormModal } from '../../components/admin/ProductFormModal';
 import { DeleteConfirmModal } from '../../components/admin/DeleteConfirmModal';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AdminProductsPage: React.FC = () => {
+  useDocumentTitle('Admin Products | Zeenath Jewellers');
   const [products, setProducts] = useState<FirestoreProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSeeding, setIsSeeding] = useState<boolean>(false);

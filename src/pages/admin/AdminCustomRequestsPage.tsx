@@ -10,8 +10,10 @@ import { CUSTOM_REQUEST_STATUS_LABELS } from '../../services/firestoreService';
 import { CustomRequestTable } from '../../components/admin/CustomRequestTable';
 import { CustomRequestDetailsModal } from '../../components/admin/CustomRequestDetailsModal';
 import { DeleteRequestConfirmModal } from '../../components/admin/DeleteRequestConfirmModal';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AdminCustomRequestsPage: React.FC = () => {
+  useDocumentTitle('Admin Custom Requests | Zeenath Jewellers');
   const [requests, setRequests] = useState<FirestoreCustomRequest[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
