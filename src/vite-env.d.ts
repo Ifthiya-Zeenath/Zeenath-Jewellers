@@ -16,3 +16,8 @@ interface ImportMeta {
 declare module 'firebase/firestore' {
   export * from '@firebase/firestore';
 }
+
+declare module '*.PNG' {
+  const src: string;
+  export default src;
+}

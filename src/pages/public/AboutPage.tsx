@@ -1,6 +1,6 @@
 import React from 'react';
 import { Award, MapPin, HeartHandshake, Phone } from 'lucide-react';
-import logoFull from '../../assets/logo-full.jpg';
+import logoFull from '../../assets/logo-full.PNG';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
