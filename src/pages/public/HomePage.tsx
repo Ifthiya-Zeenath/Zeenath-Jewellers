@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -14,12 +14,11 @@ import {
   ExternalLink,
   Palette,
   CheckCircle2,
-  MessageSquare
+  MessageSquare,
+  ChevronDown
 } from 'lucide-react';
 
 import heroBanner from '../../assets/hero-banner.jpg';
-import logoFull from '../../assets/logo-full.PNG';
-import nameLogo from '../../assets/name logo.PNG';
 import ringImg from '../../assets/ring-collection.jpg';
 import necklaceImg from '../../assets/necklace-collection.jpg';
 import atelierImg from '../../assets/custom-atelier.jpg';
@@ -33,19 +32,31 @@ export const HomePage: React.FC = () => {
     'Discover premium gold jewellery, wedding jewellery, rings, necklaces, bracelets and custom jewellery designs at Zeenath Jewellers in Hambantota, Sri Lanka.'
   );
 
-  // Scroll Reveal Observer for subtle motion
+  // Parallax Mouse Track State for Apple-Style Hero
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    const x = (clientX / innerWidth - 0.5) * 20;
+    const y = (clientY / innerHeight - 0.5) * 20;
+    setMousePos({ x, y });
+  };
+
+  // Scroll Reveal Observer for Apple-Level Motion
   useEffect(() => {
     const observerCallback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-fade-in-up');
-          entry.target.classList.remove('opacity-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-12');
         }
       });
     };
 
     const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.1,
+      threshold: 0.12,
+      rootMargin: '0px 0px -50px 0px',
     });
 
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
@@ -64,21 +75,21 @@ export const HomePage: React.FC = () => {
     {
       icon: Palette,
       title: 'Custom Jewellery Designs',
-      description: 'Bespoke 3D sketches & master artisan creations made to your vision.',
+      description: 'Bespoke 3D CAD & master goldsmith artisan creations.',
     },
     {
       icon: Award,
       title: 'Quality Craftsmanship',
-      description: '100% Certified 22K & 24K hallmarked gold with lifetime purity assurance.',
+      description: '100% Certified 22K & 24K hallmarked gold with lifetime purity.',
     },
     {
       icon: HeartHandshake,
       title: 'Customer Satisfaction',
-      description: 'Transparent daily market rates, personal guidance, and dedicated care.',
+      description: 'Transparent daily market rates, personal guidance, and care.',
     },
   ];
 
-  // 2. FEATURED CATEGORIES
+  // 2. FEATURED CATEGORIES DATA
   const categories = [
     {
       id: 'rings',
@@ -106,8 +117,8 @@ export const HomePage: React.FC = () => {
     },
     {
       id: 'bracelets',
-      name: 'Bracelets',
-      tagline: 'Intricate Gold Cuffs & Bangles',
+      name: 'Bracelets & Bangles',
+      tagline: 'Intricate Gold Cuffs',
       desc: 'Solid 22K & 24K gold bangles, flexible charm bracelets, and luxury cuffs.',
       img: heroBanner,
       count: '40+ Designs',
@@ -238,206 +249,148 @@ export const HomePage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#FAF8F3] text-[#121212] overflow-x-hidden selection:bg-[#C6A15B] selection:text-white">
+    <div className="bg-[#0A0A0A] text-white overflow-x-hidden selection:bg-[#C6A15B] selection:text-white">
       
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION */}
+      {/* 1. APPLE-LEVEL DRAMATIC HERO SECTION */}
       {/* ========================================================================= */}
-      <section className="relative min-h-[92vh] flex items-center pt-6 pb-16 lg:pt-10 lg:pb-24 overflow-hidden bg-gradient-to-b from-[#FAF8F3] via-[#FAF6ED] to-[#FAF8F3]">
+      <section 
+        onMouseMove={handleMouseMove}
+        className="relative min-h-[95vh] lg:min-h-screen flex flex-col justify-center items-center pt-12 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[#080808] via-[#0E0D0B] to-[#0A0A0A]"
+      >
         
-        {/* Subtle Ambient Radial Gold Atmosphere */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-radial from-[#C6A15B]/15 via-[#FAF8F3]/50 to-transparent blur-3xl pointer-events-none animate-pulse-glow"></div>
-        
-        {/* Fine Architectural Grid Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#C6A15B0D_1px,transparent_1px),linear-gradient(to_bottom,#C6A15B0D_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-70 pointer-events-none"></div>
+        {/* Dynamic Parallax Radial Glow */}
+        <div 
+          style={{ transform: `translate(${mousePos.x * 1.5}px, ${mousePos.y * 1.5}px)` }}
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] sm:w-[1100px] h-[850px] sm:h-[1100px] bg-radial from-[#C6A15B]/20 via-[#E2E8F0]/5 to-transparent blur-3xl pointer-events-none transition-transform duration-300 ease-out"
+        ></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+        {/* Delicate Silver Architectural Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#E2E8F00A_1px,transparent_1px),linear-gradient(to_bottom,#C6A15B0A_1px,transparent_1px)] bg-[size:4.5rem_4.5rem] opacity-60 pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10 w-full text-center space-y-10">
+          
+          {/* Top Pill Badge: Apple Style */}
+          <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:border-[#C6A15B]/50 transition-all duration-500 group">
+            <span className="w-2 h-2 rounded-full bg-[#C6A15B] animate-ping"></span>
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-slate-200 font-medium">
+              Hambantota Boutique • <span className="text-[#C6A15B]">Haute Joaillerie Atelier</span>
+            </span>
+          </div>
+
+          {/* Central Natural Brand PNG Integration (No White Box, Natural Background) */}
+          <div className="flex flex-col items-center justify-center space-y-4 pt-2">
+            <div 
+              style={{ transform: `translate(${mousePos.x * -0.5}px, ${mousePos.y * -0.5}px)` }}
+              className="relative inline-block transition-transform duration-300 ease-out"
+            >
+              {/* Natural transparent PNG logo sitting directly on obsidian canvas */}
+              <img
+                src="/zeenathjewellers.png"
+                alt="Zeenath Jewellers"
+                className="h-16 sm:h-24 md:h-28 lg:h-32 w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(198,161,91,0.25)] hover:scale-[1.02] transition-transform duration-500"
+              />
+            </div>
             
-            {/* Left Brand Lockup & Headline */}
-            <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
-              
-              {/* Top Flagship Pill Badge */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white/95 backdrop-blur-md border border-[#C6A15B]/40 rounded-full shadow-xs hover:border-[#C6A15B] transition-all">
-                <span className="w-2 h-2 rounded-full bg-[#C6A15B] animate-pulse"></span>
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#121212] font-semibold">
-                  Hambantota Flagship Boutique • <span className="text-[#C6A15B]">Established Gold Artistry</span>
-                </span>
-              </div>
+            <p className="font-serif italic text-base sm:text-xl text-[#C6A15B] tracking-widest font-light">
+              "{BUSINESS_DETAILS.tagline}"
+            </p>
+          </div>
 
-              {/* Logo & Headline Integration */}
-              <div className="space-y-4">
-                
-                {/* Brand Logo Presentation */}
-                <div className="flex flex-col items-center lg:items-start space-y-2">
-                  <img
-                    src={nameLogo}
-                    alt="Zeenath Jewellers Logo"
-                    className="h-16 sm:h-20 md:h-24 w-auto object-contain drop-shadow-sm filter hover:brightness-105 transition-all"
-                  />
-                  <div className="flex items-center gap-3">
-                    <span className="h-px w-10 bg-[#C6A15B]/40"></span>
-                    <span className="font-serif italic text-sm sm:text-base text-[#C6A15B] tracking-wider">
-                      {BUSINESS_DETAILS.tagline}
-                    </span>
-                    <span className="h-px w-10 bg-[#C6A15B]/40"></span>
-                  </div>
-                </div>
+          {/* EXACT REQUIRED HEADLINE WITH APPLE-LEVEL TYPOGRAPHY */}
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-tight leading-[1.1] max-w-5xl mx-auto">
+            Your Gold Partner <br className="hidden sm:inline" />
+            <span className="font-serif italic font-normal gold-gradient-text relative inline-block">
+              for Life
+            </span>
+          </h1>
 
-                {/* EXACT REQUIRED HEADLINE */}
-                <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-light text-[#121212] tracking-tight leading-[1.15]">
-                  Your Gold Partner <br className="hidden sm:inline" />
-                  <span className="font-serif italic font-normal text-[#C6A15B] relative inline-block">
-                    for Life
-                    <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#C6A15B]/40" viewBox="0 0 100 20" preserveAspectRatio="none">
-                      <path d="M0,10 Q50,18 100,10" fill="none" stroke="currentColor" strokeWidth="3" />
-                    </svg>
-                  </span>
-                </h1>
+          {/* Rich Supporting Text with Silver Highlights */}
+          <p className="text-xs sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl mx-auto">
+            Experience an unprecedented synthesis of Sri Lankan gold heritage and high-luxury design. Every masterpiece is handcrafted in 100% hallmarked <span className="text-[#C6A15B] font-medium">22K & 24K gold</span> at our Hambantota boutique atelier.
+          </p>
 
-                {/* Rich Supporting Text */}
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-light pt-2">
-                  Immerse yourself in Sri Lanka’s premier luxury gold jewellery experience. From certified hallmarked 22K & 24K wedding sets to bespoke custom designs, we craft timeless heirlooms with unmatched integrity and artistry.
-                </p>
+          {/* Apple-Style Action Buttons */}
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
+            
+            {/* CTA 1: Shop Collection */}
+            <Link
+              to="/shop"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 py-4 bg-gradient-to-r from-[#C6A15B] to-[#A88645] text-white hover:from-[#DFBA73] hover:to-[#C6A15B] transition-all duration-500 text-xs font-semibold uppercase tracking-[0.22em] rounded-full shadow-[0_10px_30px_rgba(198,161,91,0.3)] group hover:scale-105"
+            >
+              <span>Shop Collection</span>
+              <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+            </Link>
 
-              </div>
+            {/* CTA 2: Custom Jewellery */}
+            <Link
+              to="/custom-jewellery"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-white/5 backdrop-blur-xl border border-white/20 text-white hover:bg-white hover:text-[#121212] transition-all duration-500 text-xs font-semibold uppercase tracking-[0.22em] rounded-full shadow-lg hover:scale-105"
+            >
+              <Palette className="w-4 h-4 text-[#C6A15B]" />
+              <span>Custom Jewellery</span>
+            </Link>
 
-              {/* Gold Purity Chips */}
-              <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start pt-1">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/80 border border-[#C6A15B]/30 text-[11px] uppercase tracking-wider text-[#121212] font-medium rounded-xs shadow-2xs">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#C6A15B]" />
-                  100% Certified 22K & 24K
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/80 border border-[#C6A15B]/30 text-[11px] uppercase tracking-wider text-[#121212] font-medium rounded-xs shadow-2xs">
-                  <Gem className="w-3.5 h-3.5 text-[#C6A15B]" />
-                  Bespoke Bridal Atelier
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/80 border border-[#C6A15B]/30 text-[11px] uppercase tracking-wider text-[#121212] font-medium rounded-xs shadow-2xs">
-                  <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
-                  Instant WhatsApp Sync
-                </span>
-              </div>
-
-              {/* Two Main CTAs + WhatsApp Rate Check */}
-              <div className="pt-4 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                
-                {/* CTA 1: Shop Collection */}
-                <Link
-                  to="/shop"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#121212] text-white hover:bg-[#C6A15B] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-lg group hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  <span>Shop Collection</span>
-                  <ArrowRight className="w-4 h-4 text-[#C6A15B] group-hover:translate-x-1 group-hover:text-white transition-all" />
-                </Link>
-
-                {/* CTA 2: Custom Jewellery */}
-                <Link
-                  to="/custom-jewellery"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-white/90 backdrop-blur-md border border-[#C6A15B]/60 text-[#121212] hover:bg-[#121212] hover:text-white hover:border-[#121212] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-xs hover:-translate-y-0.5"
-                >
-                  <Palette className="w-4 h-4 text-[#C6A15B]" />
-                  <span>Custom Jewellery</span>
-                </Link>
-
-                {/* Rate Consultation Link */}
-                <a
-                  href={getWhatsAppEnquiryUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 text-[#C6A15B] hover:text-[#121212] border border-[#C6A15B]/30 hover:border-[#C6A15B] transition-all text-xs font-semibold uppercase tracking-wider rounded-xs bg-white/40"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>Daily Rates</span>
-                </a>
-
-              </div>
-
-            </div>
-
-            {/* Right Editorial Showcase Card */}
-            <div className="lg:col-span-5 relative mt-4 lg:mt-0">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                
-                {/* Decorative Frame */}
-                <div className="absolute -inset-4 rounded-2xl border border-[#C6A15B]/30 bg-gradient-to-br from-[#FAF5EB] to-[#FAF8F3] translate-x-3 translate-y-3 pointer-events-none"></div>
-
-                {/* Primary Card */}
-                <div className="relative rounded-xl overflow-hidden shadow-2xl border border-white bg-white group z-10">
-                  <img
-                    src={heroBanner}
-                    alt="Zeenath Jewellers Gold Collection"
-                    className="w-full h-[460px] sm:h-[520px] object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/90 via-[#121212]/30 to-transparent"></div>
-
-                  {/* Card Content Overlay */}
-                  <div className="absolute bottom-6 left-6 right-6 text-white space-y-2 z-20">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#C6A15B]"></span>
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B] font-bold">
-                        Haute Joaillerie 2026
-                      </span>
-                    </div>
-                    <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-wide">
-                      22K Handcrafted Masterpieces
-                    </h3>
-                    <p className="text-xs text-white/80 font-light flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#C6A15B]" />
-                      <span>{BUSINESS_DETAILS.address}</span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* Top Glass Badge */}
-                <div className="absolute -top-5 -right-4 bg-[#121212]/95 backdrop-blur-md text-white p-4 rounded-lg shadow-xl border border-[#C6A15B]/40 hidden sm:flex items-center gap-3 z-30 animate-float">
-                  <div className="w-10 h-10 rounded-full bg-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] shrink-0 border border-[#C6A15B]/40">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-white tracking-wide">Hambantota Flagship</p>
-                    <p className="text-[10px] text-[#C6A15B]">Bespoke Order Atelier</p>
-                  </div>
-                </div>
-
-                {/* Bottom Glass Badge */}
-                <div className="absolute -bottom-5 -left-4 bg-white/95 backdrop-blur-md text-[#121212] p-4 rounded-lg shadow-xl border border-[#C6A15B]/30 hidden sm:flex items-center gap-3.5 z-30 hover:scale-105 transition-transform duration-300">
-                  <div className="w-10 h-10 rounded-full bg-[#C6A15B] flex items-center justify-center text-white shrink-0 shadow-xs">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-[#121212] tracking-wide">Hallmarked Purity Guaranteed</p>
-                    <p className="text-[10px] text-gray-500">22K & 24K Certified Gold</p>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+            {/* WhatsApp Daily Rate Button */}
+            <a
+              href={getWhatsAppEnquiryUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 text-slate-300 hover:text-white border border-white/10 hover:border-white/30 transition-all text-xs font-semibold uppercase tracking-wider rounded-full bg-white/5"
+            >
+              <Phone className="w-3.5 h-3.5 text-[#C6A15B]" />
+              <span>Daily Rates</span>
+            </a>
 
           </div>
+
+          {/* Floating Glass Badges */}
+          <div className="pt-8 flex flex-wrap justify-center items-center gap-4 text-xs text-slate-300">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+              <ShieldCheck className="w-4 h-4 text-[#C6A15B]" />
+              100% Certified 22K & 24K
+            </span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+              <Gem className="w-4 h-4 text-[#C6A15B]" />
+              Bespoke Bridal Atelier
+            </span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+              <Sparkles className="w-4 h-4 text-[#C6A15B]" />
+              Direct WhatsApp Concierge
+            </span>
+          </div>
+
         </div>
+
+        {/* Scroll Indicator Arrow */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-70 animate-scroll-pulse pointer-events-none">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-slate-400 font-mono">Scroll</span>
+          <ChevronDown className="w-4 h-4 text-[#C6A15B]" />
+        </div>
+
       </section>
 
       {/* ========================================================================= */}
       {/* 2. TRUST BAR (Directly below hero) */}
       {/* ========================================================================= */}
-      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 mb-20">
-        <div className="bg-white/90 backdrop-blur-xl border border-[#C6A15B]/30 rounded-xl shadow-xl p-6 sm:p-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-24 reveal-on-scroll opacity-0 translate-y-12">
+        <div className="glass-obsidian-gold rounded-2xl shadow-2xl p-6 sm:p-10 border border-[#C6A15B]/30">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {trustBarItems.map((item, idx) => {
               const IconComp = item.icon;
               return (
                 <div
                   key={idx}
-                  className="group p-5 rounded-lg border border-transparent hover:border-[#C6A15B]/30 hover:bg-[#FAF8F3] transition-all duration-300 flex items-start gap-4"
+                  className="group p-4 rounded-xl border border-transparent hover:border-[#C6A15B]/30 hover:bg-white/5 transition-all duration-500 flex items-start gap-4"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/30 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#C6A15B] group-hover:text-white transition-all duration-300 shrink-0 shadow-2xs">
+                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-[#C6A15B]/30 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#C6A15B] group-hover:text-white transition-all duration-500 shrink-0 shadow-lg">
                     <IconComp className="w-6 h-6" />
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-serif text-lg font-semibold text-[#121212] group-hover:text-[#C6A15B] transition-colors">
+                    <h4 className="font-serif text-lg font-semibold text-white group-hover:text-[#C6A15B] transition-colors">
                       {item.title}
                     </h4>
-                    <p className="text-xs text-gray-500 font-light leading-relaxed">
+                    <p className="text-xs text-slate-400 font-light leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -451,18 +404,18 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 3. FEATURED CATEGORIES */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#C6A15B]/20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/10 reveal-on-scroll opacity-0 translate-y-12">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-          <div className="space-y-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-6">
+          <div className="space-y-3">
             <span className="font-serif italic text-xl text-[#C6A15B] block">Curated Collections</span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#121212] tracking-wide">
+            <h2 className="font-serif text-4xl sm:text-6xl font-light text-white tracking-wide">
               Featured Jewellery Categories
             </h2>
-            <div className="w-16 h-0.5 bg-[#C6A15B]"></div>
+            <div className="w-20 h-0.5 bg-gradient-to-r from-[#C6A15B] to-transparent"></div>
           </div>
-          <p className="text-xs sm:text-sm text-gray-600 max-w-md font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-400 max-w-md font-light leading-relaxed">
             Discover 6 specialized gold jewellery categories meticulously designed for bridal celebrations, everyday elegance, and heirloom investments.
           </p>
         </div>
@@ -473,38 +426,38 @@ export const HomePage: React.FC = () => {
             <Link
               key={cat.id}
               to="/shop"
-              className="group bg-white rounded-xl border border-[#C6A15B]/20 hover:border-[#C6A15B] shadow-xs hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col justify-between"
+              className="group bg-[#121212] rounded-2xl border border-white/10 hover:border-[#C6A15B] shadow-xl hover:shadow-[0_15px_40px_rgba(198,161,91,0.2)] transition-all duration-700 overflow-hidden flex flex-col justify-between"
             >
               {/* Image Banner */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#FAF8F3]">
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#0D0D0D]">
                 <img
                   src={cat.img}
                   alt={cat.name}
-                  className="w-full h-full object-cover transform group-hover:scale-108 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
-                <span className="absolute top-3 right-3 bg-[#121212]/90 backdrop-blur-md text-[#C6A15B] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-[#C6A15B]/30">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80"></div>
+                <span className="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-[#C6A15B] text-[10px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-full border border-[#C6A15B]/30">
                   {cat.count}
                 </span>
               </div>
 
               {/* Card Body */}
-              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+              <div className="p-7 space-y-4 flex-1 flex flex-col justify-between">
                 <div>
                   <span className="text-[11px] font-semibold text-[#C6A15B] uppercase tracking-widest block">
                     {cat.tagline}
                   </span>
-                  <h3 className="font-serif text-2xl font-normal text-[#121212] group-hover:text-[#C6A15B] transition-colors mt-1">
+                  <h3 className="font-serif text-2xl font-normal text-white group-hover:text-[#C6A15B] transition-colors mt-1">
                     {cat.name}
                   </h3>
-                  <p className="text-xs text-gray-500 font-light leading-relaxed mt-2">
+                  <p className="text-xs text-slate-400 font-light leading-relaxed mt-2">
                     {cat.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[#121212] group-hover:text-[#C6A15B] transition-colors">
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-200 group-hover:text-[#C6A15B] transition-colors">
                   <span>Explore Designs</span>
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform" />
                 </div>
               </div>
             </Link>
@@ -515,26 +468,37 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 4. WHY CHOOSE ZEENATH (Luxury Split-Section) */}
       {/* ========================================================================= */}
-      <section className="my-20 bg-[#121212] text-white py-20 relative overflow-hidden border-y border-[#C6A15B]/30">
+      <section className="my-24 bg-gradient-to-b from-[#0D0D0D] via-[#121212] to-[#0D0D0D] text-white py-24 relative overflow-hidden border-y border-white/10 reveal-on-scroll opacity-0 translate-y-12">
         
-        {/* Subtle Background Glow */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-radial from-[#C6A15B]/10 to-transparent blur-3xl pointer-events-none"></div>
+        {/* Subtle Ambient Radial Light */}
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[700px] h-[700px] bg-radial from-[#C6A15B]/15 via-transparent to-transparent blur-3xl pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Left Image & Brand Lockup */}
+            {/* Left Image & Brand PNG Lockup */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="relative rounded-2xl overflow-hidden border border-[#C6A15B]/40 shadow-2xl group">
+              <div className="relative rounded-2xl overflow-hidden border border-[#C6A15B]/40 shadow-2xl group bg-[#080808]">
                 <img
-                  src={logoFull}
+                  src={heroBanner}
                   alt="Zeenath Jewellers Heritage"
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-[460px] object-cover transform group-hover:scale-105 transition-transform duration-700 opacity-85"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
-                  <span className="font-serif italic text-lg text-[#C6A15B]">Established in Hambantota</span>
-                  <h4 className="font-serif text-2xl font-light tracking-wide">Heritage & Mastery</h4>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                
+                {/* Integrated Natural Brand Asset (zeenath.png) */}
+                <div className="absolute bottom-8 left-8 right-8 text-white space-y-3 z-10">
+                  <img
+                    src="/zeenath.png"
+                    alt="Zeenath"
+                    className="h-10 sm:h-12 w-auto object-contain filter drop-shadow-md"
+                  />
+                  <span className="font-serif italic text-base text-[#C6A15B] block">
+                    Established Flagship in Hambantota
+                  </span>
+                  <p className="text-xs text-slate-300 font-light">
+                    Generations of Sri Lankan goldsmithing mastery and hallmarked purity.
+                  </p>
                 </div>
               </div>
             </div>
@@ -561,7 +525,7 @@ export const HomePage: React.FC = () => {
                         {reason.title}
                       </h3>
                     </div>
-                    <p className="text-xs text-gray-300 font-light leading-relaxed border-l-2 border-[#C6A15B]/30 pl-3">
+                    <p className="text-xs text-slate-300 font-light leading-relaxed border-l-2 border-[#C6A15B]/30 pl-3">
                       {reason.description}
                     </p>
                   </div>
@@ -572,7 +536,7 @@ export const HomePage: React.FC = () => {
               <div className="pt-4">
                 <Link
                   to="/about"
-                  className="inline-flex items-center gap-3 px-8 py-3.5 bg-[#C6A15B] text-white hover:bg-[#A88645] transition-all text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-md"
+                  className="inline-flex items-center gap-3 px-8 py-3.5 bg-[#C6A15B] text-white hover:bg-[#A88645] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-full shadow-lg"
                 >
                   <span>Learn Our Full Story</span>
                   <ArrowRight className="w-4 h-4" />
@@ -588,35 +552,44 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 5. CUSTOM JEWELLERY SHOWCASE */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-gradient-to-r from-[#FAF6ED] via-white to-[#FAF6ED] rounded-2xl p-8 sm:p-14 border border-[#C6A15B]/40 shadow-xl relative overflow-hidden">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 reveal-on-scroll opacity-0 translate-y-12">
+        <div className="glass-obsidian-gold rounded-3xl p-8 sm:p-14 border border-[#C6A15B]/40 shadow-2xl relative overflow-hidden">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#C6A15B]/10 border border-[#C6A15B]/30 rounded-full text-[#C6A15B] text-[11px] uppercase tracking-widest font-semibold">
-                <Palette className="w-3.5 h-3.5" />
-                <span>Bespoke Goldsmith Atelier</span>
+              
+              {/* Natural Brand PNG (name.png) */}
+              <div className="space-y-2">
+                <img
+                  src="/name.png"
+                  alt="Zeenath Jewellers Atelier"
+                  className="h-10 sm:h-12 w-auto object-contain filter drop-shadow-md"
+                />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#C6A15B]/20 border border-[#C6A15B]/40 rounded-full text-[#C6A15B] text-[11px] uppercase tracking-widest font-semibold mt-2">
+                  <Palette className="w-3.5 h-3.5" />
+                  <span>Bespoke Goldsmith Atelier</span>
+                </div>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#121212] tracking-wide leading-tight">
+              <h2 className="font-serif text-3xl sm:text-5xl font-light text-white tracking-wide leading-tight">
                 Have a Custom Design in Mind?
               </h2>
 
-              <p className="text-xs sm:text-sm text-gray-600 font-light leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
                 Bring your unique vision to life with Zeenath Jewellers. Whether you have a reference sketch, a photograph, or an idea in mind, our master artisans craft bespoke 22K and 24K gold pieces tailored precisely to your specifications.
               </p>
 
               <div className="space-y-2.5 pt-2">
-                <div className="flex items-center gap-3 text-xs text-gray-700 font-medium">
+                <div className="flex items-center gap-3 text-xs text-slate-200 font-medium">
                   <CheckCircle2 className="w-4 h-4 text-[#C6A15B]" />
                   <span>3D Design Preview & Personal Goldsmith Consultation</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-gray-700 font-medium">
+                <div className="flex items-center gap-3 text-xs text-slate-200 font-medium">
                   <CheckCircle2 className="w-4 h-4 text-[#C6A15B]" />
                   <span>Crafted in Certified 22K & 24K Hallmarked Gold</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-gray-700 font-medium">
+                <div className="flex items-center gap-3 text-xs text-slate-200 font-medium">
                   <CheckCircle2 className="w-4 h-4 text-[#C6A15B]" />
                   <span>Direct WhatsApp progress updates from Hambantota atelier</span>
                 </div>
@@ -626,9 +599,9 @@ export const HomePage: React.FC = () => {
               <div className="pt-4">
                 <Link
                   to="/custom-jewellery"
-                  className="inline-flex items-center gap-3 px-9 py-4 bg-[#121212] text-white hover:bg-[#C6A15B] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-lg hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-3 px-9 py-4 bg-gradient-to-r from-[#C6A15B] to-[#A88645] text-white hover:from-[#DFBA73] hover:to-[#C6A15B] transition-all duration-500 text-xs font-semibold uppercase tracking-[0.2em] rounded-full shadow-lg hover:scale-105"
                 >
-                  <Palette className="w-4 h-4 text-[#C6A15B]" />
+                  <Palette className="w-4 h-4 text-white" />
                   <span>Request Custom Design</span>
                 </Link>
               </div>
@@ -636,16 +609,16 @@ export const HomePage: React.FC = () => {
 
             {/* Atelier Visual */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-xl overflow-hidden shadow-2xl border border-[#C6A15B]/30 group">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-[#C6A15B]/40 group">
                 <img
                   src={atelierImg}
                   alt="Custom Jewellery Atelier Crafting"
-                  className="w-full h-[360px] object-cover transform group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-[380px] object-cover transform group-hover:scale-108 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                <div className="absolute bottom-5 left-5 right-5 text-white">
                   <p className="text-[11px] uppercase tracking-widest text-[#C6A15B] font-bold">Master Goldsmith at Work</p>
-                  <p className="font-serif text-lg font-light">Handcrafted Perfection</p>
+                  <p className="font-serif text-xl font-light">Handcrafted Perfection</p>
                 </div>
               </div>
             </div>
@@ -658,51 +631,51 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 6. BUSINESS INFORMATION */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#C6A15B]/20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/10 reveal-on-scroll opacity-0 translate-y-12">
         
-        <div className="text-center space-y-2 mb-12">
+        <div className="text-center space-y-3 mb-14">
           <span className="font-serif italic text-xl text-[#C6A15B] block">Boutique Information</span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#121212] tracking-wide">
+          <h2 className="font-serif text-3xl sm:text-5xl font-light text-white tracking-wide">
             Visit & Contact Zeenath Jewellers
           </h2>
-          <div className="w-16 h-0.5 bg-[#C6A15B] mx-auto mt-2"></div>
+          <div className="w-20 h-0.5 bg-gradient-to-r from-[#C6A15B] to-transparent mx-auto"></div>
         </div>
 
-        {/* 4 Contact Cards + 1 Opening Hours Card */}
+        {/* 4 Contact Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {contactCards.map((card, idx) => {
             const IconComp = card.icon;
             return (
               <div
                 key={idx}
-                className="bg-white p-6 rounded-xl border border-[#C6A15B]/20 hover:border-[#C6A15B] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="bg-[#121212] p-6 rounded-2xl border border-white/10 hover:border-[#C6A15B] shadow-xl hover:shadow-[0_10px_30px_rgba(198,161,91,0.2)] transition-all duration-500 flex flex-col justify-between group"
               >
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <div className="w-10 h-10 rounded-full bg-[#FAF8F3] border border-[#C6A15B]/30 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#121212] group-hover:text-[#C6A15B] transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-[#C6A15B]/30 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#C6A15B] group-hover:text-white transition-colors">
                       <IconComp className="w-5 h-5" />
                     </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 bg-gray-50 px-2 py-0.5 rounded">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
                       {card.badge}
                     </span>
                   </div>
 
                   <div>
-                    <h4 className="font-serif text-lg font-semibold text-[#121212]">
+                    <h4 className="font-serif text-lg font-semibold text-white">
                       {card.title}
                     </h4>
-                    <p className="text-xs text-gray-600 font-light mt-1 break-words">
+                    <p className="text-xs text-slate-400 font-light mt-1 break-words">
                       {card.value}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-4 mt-6 border-t border-gray-100">
+                <div className="pt-4 mt-6 border-t border-white/10">
                   <a
                     href={card.actionUrl}
                     target={card.actionUrl.startsWith('http') ? '_blank' : '_self'}
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-between w-full text-xs font-semibold uppercase tracking-wider text-[#C6A15B] group-hover:text-[#121212] transition-colors"
+                    className="inline-flex items-center justify-between w-full text-xs font-semibold uppercase tracking-wider text-[#C6A15B] group-hover:text-white transition-colors"
                   >
                     <span>{card.actionText}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -714,23 +687,23 @@ export const HomePage: React.FC = () => {
         </div>
 
         {/* Opening Hours Premium Card */}
-        <div className="bg-gradient-to-r from-[#121212] to-[#1E1E1E] text-white p-8 rounded-xl border border-[#C6A15B]/40 shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="bg-gradient-to-r from-[#121212] via-[#161616] to-[#121212] text-white p-8 rounded-2xl border border-[#C6A15B]/40 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-[#C6A15B]/20 border border-[#C6A15B]/40 flex items-center justify-center text-[#C6A15B] shrink-0">
               <Clock className="w-6 h-6" />
             </div>
             <div>
               <h4 className="font-serif text-2xl font-light tracking-wide text-white">Boutique Opening Hours</h4>
-              <p className="text-xs text-gray-400 font-light mt-0.5">Visit us for personalized 1-on-1 gold consultations</p>
+              <p className="text-xs text-slate-400 font-light mt-0.5">Visit us for personalized 1-on-1 gold consultations</p>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-6 text-xs text-gray-200">
-            <div className="bg-white/5 border border-white/10 px-5 py-3 rounded-lg">
+          <div className="flex flex-col sm:flex-row gap-6 text-xs text-slate-200">
+            <div className="bg-white/5 border border-white/10 px-6 py-3.5 rounded-xl">
               <span className="text-[#C6A15B] font-bold block uppercase text-[10px] tracking-widest mb-1">Weekdays</span>
               <span>{BUSINESS_DETAILS.hours.weekdays}</span>
             </div>
-            <div className="bg-white/5 border border-white/10 px-5 py-3 rounded-lg">
+            <div className="bg-white/5 border border-white/10 px-6 py-3.5 rounded-xl">
               <span className="text-[#C6A15B] font-bold block uppercase text-[10px] tracking-widest mb-1">Weekends</span>
               <span>{BUSINESS_DETAILS.hours.weekends}</span>
             </div>
@@ -742,14 +715,14 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 7. SOCIAL MEDIA SECTION */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#C6A15B]/20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-white/10 reveal-on-scroll opacity-0 translate-y-12">
         
-        <div className="text-center space-y-2 mb-12">
+        <div className="text-center space-y-3 mb-14">
           <span className="font-serif italic text-xl text-[#C6A15B] block">Join Our Community</span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#121212] tracking-wide">
+          <h2 className="font-serif text-3xl sm:text-5xl font-light text-white tracking-wide">
             Follow Zeenath Jewellers
           </h2>
-          <p className="text-xs text-gray-500 font-light max-w-md mx-auto">
+          <p className="text-xs text-slate-400 font-light max-w-md mx-auto">
             Stay connected on Facebook, Instagram, and TikTok for daily gold rate updates, new design launches, and customer stories.
           </p>
         </div>
@@ -762,27 +735,27 @@ export const HomePage: React.FC = () => {
               href={platform.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`bg-white p-8 rounded-xl border ${platform.borderColor} hover:border-[#C6A15B] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden`}
+              className={`bg-[#121212] p-8 rounded-2xl border ${platform.borderColor} hover:border-[#C6A15B] shadow-xl hover:shadow-[0_15px_35px_rgba(198,161,91,0.25)] transition-all duration-500 flex flex-col justify-between group relative overflow-hidden`}
             >
               <div className="space-y-4 relative z-10">
                 <div className="flex justify-between items-center">
-                  <div className={`p-3 rounded-xl bg-gray-50 ${platform.iconColor} group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`p-3 rounded-xl bg-white/5 ${platform.iconColor} group-hover:scale-110 transition-transform duration-500`}>
                     {platform.svgIcon}
                   </div>
-                  <span className="text-xs text-gray-400 font-mono font-medium">{platform.handle}</span>
+                  <span className="text-xs text-slate-400 font-mono font-medium">{platform.handle}</span>
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-2xl font-semibold text-[#121212] group-hover:text-[#C6A15B] transition-colors">
+                  <h3 className="font-serif text-2xl font-semibold text-white group-hover:text-[#C6A15B] transition-colors">
                     {platform.name}
                   </h3>
-                  <p className="text-xs text-gray-500 font-light leading-relaxed mt-2">
+                  <p className="text-xs text-slate-400 font-light leading-relaxed mt-2">
                     {platform.description}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[#C6A15B] relative z-10">
+              <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[#C6A15B] relative z-10">
                 <span>Visit Profile</span>
                 <ExternalLink className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
               </div>
@@ -795,11 +768,11 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 8. FINAL CTA */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-[#121212] text-white rounded-2xl p-10 sm:p-20 border border-[#C6A15B]/50 shadow-2xl relative overflow-hidden text-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 reveal-on-scroll opacity-0 translate-y-12">
+        <div className="bg-gradient-to-b from-[#121212] via-[#0E0D0B] to-[#0A0A0A] text-white rounded-3xl p-10 sm:p-24 border border-[#C6A15B]/50 shadow-2xl relative overflow-hidden text-center">
           
-          {/* Subtle Ambient Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-radial from-[#C6A15B]/20 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+          {/* Ambient Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-radial from-[#C6A15B]/20 via-transparent to-transparent blur-3xl pointer-events-none"></div>
 
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
             
@@ -813,17 +786,17 @@ export const HomePage: React.FC = () => {
               Create Something Timeless
             </h2>
 
-            <p className="text-xs sm:text-sm text-gray-300 font-light leading-relaxed max-w-xl mx-auto">
+            <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed max-w-xl mx-auto">
               Experience handcrafted 22K and 24K gold elegance designed to last generations. Contact us today or initiate a custom design order with our master goldsmiths.
             </p>
 
             {/* EXACT TWO REQUIRED BUTTONS */}
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
+            <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-5">
               
               {/* Button 1: Contact Us */}
               <Link
                 to="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 py-4 bg-[#C6A15B] text-white hover:bg-[#A88645] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-lg hover:-translate-y-0.5"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 py-4 bg-gradient-to-r from-[#C6A15B] to-[#A88645] text-white hover:from-[#DFBA73] hover:to-[#C6A15B] transition-all duration-500 text-xs font-semibold uppercase tracking-[0.22em] rounded-full shadow-lg hover:scale-105"
               >
                 <Phone className="w-4 h-4" />
                 <span>Contact Us</span>
@@ -832,7 +805,7 @@ export const HomePage: React.FC = () => {
               {/* Button 2: Start Custom Order */}
               <Link
                 to="/custom-jewellery"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 py-4 bg-transparent border border-white text-white hover:bg-white hover:text-[#121212] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] rounded-xs shadow-sm hover:-translate-y-0.5"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 py-4 bg-white/5 border border-white/20 text-white hover:bg-white hover:text-[#121212] transition-all duration-500 text-xs font-semibold uppercase tracking-[0.22em] rounded-full shadow-sm hover:scale-105"
               >
                 <Palette className="w-4 h-4 text-[#C6A15B]" />
                 <span>Start Custom Order</span>

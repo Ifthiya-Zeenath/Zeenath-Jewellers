@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, ShoppingBag } from 'lucide-react';
 
-import logoMark from '../../assets/logo.png';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 
 export const Navbar: React.FC = () => {
@@ -30,28 +29,12 @@ export const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-20">
           
           {/* Logo & Brand Integration */}
-          <Link to="/" className="flex items-center gap-3.5 sm:gap-4 group py-1">
-            {/* Logo Emblem inside refined luxury crest frame */}
-            <div className="relative p-1.5 bg-white border border-[#C6A15B]/30 rounded-lg shadow-xs group-hover:border-[#C6A15B] group-hover:shadow-md transition-all duration-300">
-              <img 
-                src={logoMark} 
-                alt="Zeenath Jewellers Logo Emblem" 
-                className="h-10 w-10 sm:h-11 sm:w-11 object-cover rounded-xs"
-              />
-            </div>
-            
-            {/* Unified Brand Lockup */}
-            <div className="flex flex-col justify-center">
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-script text-2xl sm:text-3xl text-[#C6A15B] leading-none font-medium">Zeenath</span>
-                <span className="font-serif text-xs sm:text-sm font-semibold tracking-[0.24em] text-[#121212] uppercase leading-none">
-                  JEWELLERS
-                </span>
-              </div>
-              <span className="text-[9px] sm:text-[10px] tracking-[0.22em] text-gray-500 uppercase font-medium mt-1">
-                {BUSINESS_DETAILS.tagline}
-              </span>
-            </div>
+          <Link to="/" className="flex items-center gap-3 group py-1">
+            <img 
+              src="/zeenathjewellers.png" 
+              alt="Zeenath Jewellers" 
+              className="h-9 sm:h-11 w-auto object-contain filter drop-shadow-xs transition-transform duration-300 group-hover:scale-105"
+            />
           </Link>
 
           {/* Desktop Navigation Links */}
