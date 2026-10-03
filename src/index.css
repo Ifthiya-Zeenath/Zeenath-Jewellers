@@ -85,3 +85,43 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Luxury Card Glassmorphism */
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(198, 161, 91, 0.25);
+}
+
+.glass-card-dark {
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(198, 161, 91, 0.3);
+}
+
+.gold-glow-hover {
+  transition: all 0.4s ease;
+}
+
+.gold-glow-hover:hover {
+  box-shadow: 0 10px 30px -10px rgba(198, 161, 91, 0.35);
+  border-color: rgba(198, 161, 91, 0.6);
+}
+
+
