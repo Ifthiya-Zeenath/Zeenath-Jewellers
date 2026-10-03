@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
-import logoFullImg from '../../assets/logo-full.PNG';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 
 export const Footer: React.FC = () => {
@@ -28,19 +27,13 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <Link to="/" className="inline-block">
               <img 
-                src={logoFullImg} 
+                src="/zeenathjewellers.png" 
                 alt="Zeenath Jewellers Logo" 
-                className="h-14 sm:h-16 w-auto object-contain rounded border border-[#C6A15B]/40"
+                className="h-12 sm:h-14 w-auto object-contain filter drop-shadow-md"
               />
             </Link>
 
-            <div className="pt-2 space-y-1">
-              <div className="flex items-baseline gap-1">
-                <span className="font-script text-2xl text-[#C6A15B] font-bold">Zeenath</span>
-                <span className="font-serif text-lg font-bold tracking-widest text-white uppercase">
-                  JEWELLERS
-                </span>
-              </div>
+            <div className="pt-1 space-y-1">
               <p className="text-xs font-serif italic text-[#C6A15B]">
                 "{BUSINESS_DETAILS.tagline}"
               </p>
