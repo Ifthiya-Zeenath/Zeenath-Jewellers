@@ -13,16 +13,16 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   selectedCategory,
 }) => {
   return (
-    <div className="bg-white rounded-xs border border-[#C6A15B]/30 p-12 text-center space-y-6 max-w-lg mx-auto my-12 shadow-2xs">
+    <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center space-y-6 max-w-lg mx-auto my-12 shadow-sm">
       <div className="w-14 h-14 rounded-full bg-[#FAF8F3] border border-[#C6A15B]/30 flex items-center justify-center mx-auto text-[#C6A15B]">
         <Sparkles className="w-7 h-7" />
       </div>
 
       <div className="space-y-2">
-        <h3 className="font-serif text-2xl font-bold text-[#121212]">
-          No Jewellery Found
+        <h3 className="font-serif text-2xl sm:text-3xl font-light text-[#121212]">
+          No pieces found
         </h3>
-        <p className="text-xs text-gray-600 max-w-sm mx-auto leading-relaxed">
+        <p className="text-xs text-gray-500 max-w-sm mx-auto leading-relaxed">
           {searchQuery
             ? `We couldn't find any gold ornaments matching "${searchQuery}"${
                 selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''
@@ -36,10 +36,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <div>
         <button
           onClick={onReset}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#121212] text-white hover:bg-[#C6A15B] transition-all text-xs font-semibold uppercase tracking-[0.18em] rounded-xs shadow-sm cursor-pointer"
+          className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#121212] text-white hover:bg-[#C6A15B] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.18em] rounded-full shadow-md cursor-pointer hover:scale-105"
         >
           <RotateCcw className="w-3.5 h-3.5 text-[#C6A15B]" />
-          <span>Clear All Filters</span>
+          <span>View All Collections</span>
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, Sparkles } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../../data/products';
 import type { Product } from '../../data/products';
@@ -9,12 +10,12 @@ import { SortSelect } from '../../components/shop/SortSelect';
 import type { SortOption } from '../../components/shop/SortSelect';
 import { ProductCard } from '../../components/shop/ProductCard';
 import { EmptyState } from '../../components/shop/EmptyState';
-import { getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { DailyGoldRates } from '../../components/home/DailyGoldRates';
 
 export const ShopPage: React.FC = () => {
   useDocumentTitle(
-    'Shop Jewellery | Zeenath Jewellers',
+    'Curated Collections | Zeenath Jewellers',
     'Browse our certified 22K & 24K gold jewellery collection including rings, necklaces, earrings, bangles, and bridal sets at Zeenath Jewellers.'
   );
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -26,7 +27,6 @@ export const ShopPage: React.FC = () => {
     let isMounted = true;
     getFirestoreProducts().then((fsProducts) => {
       if (isMounted && fsProducts.length > 0) {
-        // Map Firestore products to Product interface
         const mapped: Product[] = fsProducts.map((p) => ({
           id: p.id,
           name: p.name,
@@ -121,47 +121,55 @@ export const ShopPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-16">
-      {/* COMPACT LUXURY CATALOGUE HEADER */}
-      <section className="py-5 bg-[#FAF8F3] border-b border-[#C6A15B]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#121212] tracking-tight">
-                Explore Our Collection
-              </h1>
-              <p className="text-xs text-gray-600 font-light mt-0.5">
-                Certified 22K & 24K gold jewellery handcrafted at our Hambantota boutique atelier.
-              </p>
-            </div>
-            <div className="text-[11px] font-mono text-gray-500 whitespace-nowrap bg-white/80 px-3 py-1 border border-[#C6A15B]/20 rounded-xs w-fit">
-              Showing <strong className="text-[#121212]">{filteredAndSortedProducts.length}</strong> of {productsList.length} Items
-            </div>
-          </div>
-        </div>
+    <div className="bg-[#FAF8F3] text-[#121212] min-h-screen pt-28 sm:pt-32 pb-20 selection:bg-[#C6A15B] selection:text-white">
+      
+      {/* 1. CLEAN EDITORIAL SHOP HEADER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3 mb-8">
+        <span className="font-serif italic text-lg sm:text-xl text-[#C6A15B] block">
+          Zeenath Catalogue
+        </span>
+
+        {/* EXACT REQUIRED MAIN HEADING */}
+        <h1 className="font-serif text-4xl sm:text-6xl font-light text-[#121212] tracking-wide">
+          Curated Collections
+        </h1>
+
+        {/* SHORT SUPPORTING TEXT */}
+        <p className="text-xs sm:text-sm text-gray-500 font-light max-w-md mx-auto">
+          Timeless pieces, crafted to become part of your story.
+        </p>
       </section>
 
-      {/* MAIN CATALOGUE & CONTROLS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      {/* 2. COMPACT PREMIUM GOLD RATE STRIP (Visible near top of Shop Page) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <DailyGoldRates />
+      </section>
+
+      {/* 3. MAIN CATALOGUE CONTROLS & PRODUCT GRID */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Compact Controls Bar: Search, Sorting, and Categories */}
-        <div className="bg-white p-4 rounded-xs border border-[#C6A15B]/25 shadow-2xs space-y-3">
-          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-            {/* Search Bar */}
+        {/* Search, Sort, and Category Filter Controls Container */}
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-5">
+          
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            {/* Search Input */}
             <SearchBar
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
               onClear={() => setSearchQuery('')}
             />
 
-            {/* Sort Dropdown */}
-            <div className="flex items-center justify-between md:justify-end gap-3 border-t md:border-t-0 pt-2 md:pt-0 border-gray-100">
+            {/* Item Count & Sort Select */}
+            <div className="flex items-center justify-between md:justify-end gap-4">
+              <span className="text-xs text-gray-400 font-mono hidden sm:inline">
+                {filteredAndSortedProducts.length} of {productsList.length} Items
+              </span>
               <SortSelect currentSort={sortOption} onSortChange={setSortOption} />
             </div>
           </div>
 
-          {/* Category Filters Bar */}
-          <div className="pt-2 border-t border-gray-100">
+          {/* Refined Category Pill Filter Buttons */}
+          <div className="pt-3 border-t border-gray-100">
             <CategoryFilter
               selectedCategory={selectedCategory}
               onSelectCategory={setSelectedCategory}
@@ -172,16 +180,16 @@ export const ShopPage: React.FC = () => {
 
         {/* Active Filter Pill Bar */}
         {(selectedCategory !== 'All' || searchQuery) && (
-          <div className="flex items-center justify-between bg-[#FAF8F3] px-4 py-2 rounded-xs border border-[#C6A15B]/20 text-xs">
+          <div className="flex items-center justify-between bg-white px-5 py-3 rounded-full border border-gray-200 text-xs shadow-2xs">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-gray-500 text-[11px] font-medium">Active Filters:</span>
+              <span className="text-gray-400 text-[11px] font-medium">Active Filters:</span>
               {selectedCategory !== 'All' && (
-                <span className="bg-[#121212] text-white px-2.5 py-0.5 rounded-xs text-[11px] font-semibold flex items-center gap-1">
+                <span className="bg-[#121212] text-white px-3 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1">
                   Category: {selectedCategory}
                 </span>
               )}
               {searchQuery && (
-                <span className="bg-[#C6A15B] text-white px-2.5 py-0.5 rounded-xs text-[11px] font-semibold flex items-center gap-1">
+                <span className="bg-[#C6A15B] text-white px-3 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1">
                   Search: "{searchQuery}"
                 </span>
               )}
@@ -196,9 +204,9 @@ export const ShopPage: React.FC = () => {
           </div>
         )}
 
-        {/* PRODUCT GRID OR EMPTY STATE */}
+        {/* 4. PRODUCT GRID OR PREMIUM EMPTY STATE */}
         {filteredAndSortedProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
             {filteredAndSortedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -211,30 +219,28 @@ export const ShopPage: React.FC = () => {
           />
         )}
 
-        {/* COMPACT FOOTER WHATSAPP CONSULTATION BANNER */}
-        <div className="bg-[#121212] text-white rounded-xs p-6 sm:p-8 border border-[#C6A15B]/40 flex flex-col md:flex-row justify-between items-center gap-4 shadow-lg">
-          <div className="space-y-1 text-center md:text-left">
-            <div className="inline-flex items-center gap-1.5 text-xs text-[#C6A15B] font-bold uppercase tracking-widest">
+        {/* 5. SMALL PREMIUM CLOSING CTA SECTION (DARK OBSIDIAN) */}
+        <div className="bg-[#0A0A0A] text-white rounded-3xl p-8 sm:p-12 border border-[#C6A15B]/30 flex flex-col md:flex-row justify-between items-center gap-6 shadow-2xl my-12 text-center md:text-left">
+          <div className="space-y-2 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#C6A15B]/20 border border-[#C6A15B]/30 rounded-full text-[#C6A15B] text-[10px] uppercase tracking-widest font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Custom Sovereign Atelier</span>
+              <span>Bespoke Atelier</span>
             </div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-              Need a Custom Sovereign Weight or Bespoke Design?
+            <h3 className="font-serif text-2xl sm:text-3xl font-light text-white">
+              Have a Custom Jewellery Idea?
             </h3>
-            <p className="text-xs text-white/70 max-w-xl font-light">
-              Send reference sketches or sovereign specifications directly to our Hambantota goldsmiths via WhatsApp.
+            <p className="text-xs text-slate-300 font-light">
+              Send reference sketches or sovereign specifications directly to our Hambantota master goldsmiths via WhatsApp.
             </p>
           </div>
 
-          <a
-            href={getWhatsAppEnquiryUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-3 bg-[#C6A15B] text-white font-bold text-xs uppercase tracking-[0.18em] hover:bg-[#A88645] transition-all rounded-xs shadow-md whitespace-nowrap"
+          <Link
+            to="/custom-jewellery"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-[#C6A15B] to-[#A88645] hover:from-[#DFBA73] hover:to-[#C6A15B] text-white font-bold text-xs uppercase tracking-[0.2em] transition-all duration-300 rounded-full shadow-lg whitespace-nowrap hover:scale-105"
           >
-            <Phone className="w-3.5 h-3.5" />
-            <span>Chat via WhatsApp</span>
-          </a>
+            <Phone className="w-4 h-4 text-white" />
+            <span>Request Custom Design</span>
+          </Link>
         </div>
 
       </section>

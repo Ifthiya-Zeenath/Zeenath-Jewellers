@@ -25,7 +25,6 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
           .map((c) => c.name.trim());
 
         if (activeCatNames.length > 0) {
-          // Combine existing static categories with any active Firestore categories cleanly
           const combined = Array.from(new Set([...CATEGORIES, ...activeCatNames]));
           setCategoriesList(combined);
         }
@@ -43,7 +42,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
 
   return (
     <div className="w-full">
-      {/* Scrollable Container with touch support and no truncation */}
+      {/* Scrollable Pill Container with hidden scrollbar and mobile touch support */}
       <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none scroll-smooth whitespace-nowrap -mx-1 px-1">
         {allCategories.map((category) => {
           const isSelected = selectedCategory === category;
@@ -54,19 +53,19 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
               key={category}
               type="button"
               onClick={() => onSelectCategory(category)}
-              className={`shrink-0 px-3.5 py-2 rounded-xs text-[11px] sm:text-xs uppercase tracking-[0.14em] font-medium transition-all duration-200 border flex items-center gap-2 cursor-pointer select-none ${
+              className={`shrink-0 px-4 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-300 border flex items-center gap-2 cursor-pointer select-none ${
                 isSelected
-                  ? 'bg-[#121212] text-white border-[#121212] shadow-xs'
-                  : 'bg-[#FAF8F3] text-[#121212]/80 border-[#C6A15B]/25 hover:border-[#C6A15B] hover:text-[#C6A15B] hover:bg-white'
+                  ? 'bg-[#121212] text-white border-[#121212] shadow-md'
+                  : 'bg-white text-gray-700 border-gray-200 hover:border-[#C6A15B] hover:text-[#C6A15B]'
               }`}
             >
               <span>{category}</span>
               {count !== undefined && (
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-semibold transition-colors ${
+                  className={`text-[10px] px-2 py-0.2 rounded-full font-mono font-semibold transition-colors ${
                     isSelected
                       ? 'bg-[#C6A15B] text-white'
-                      : 'bg-white text-gray-500 border border-gray-200'
+                      : 'bg-gray-100 text-gray-500'
                   }`}
                 >
                   {count}
