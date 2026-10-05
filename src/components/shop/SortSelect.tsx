@@ -27,7 +27,7 @@ export const SortSelect: React.FC<SortSelectProps> = ({ currentSort, onSortChang
         id="shop-sort-select"
         value={currentSort}
         onChange={(e) => onSortChange(e.target.value as SortOption)}
-        className="px-3 py-2 bg-white border border-[#C6A15B]/30 rounded-xs text-xs font-medium text-[#121212] focus:outline-none focus:border-[#C6A15B] transition-colors cursor-pointer shadow-2xs"
+        className="px-4 py-2 bg-white border border-gray-200 rounded-full text-xs font-medium text-[#121212] focus:outline-none focus:border-[#C6A15B] hover:border-[#C6A15B] transition-all cursor-pointer shadow-xs"
       >
         <option value="featured">Featured</option>
         <option value="newest">Newest Arrivals</option>
