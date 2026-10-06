@@ -11,7 +11,7 @@ interface BreadcrumbsProps {
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ category, productName }) => {
   return (
     <nav aria-label="Breadcrumb" className="py-2">
-      <ol className="flex items-center gap-1.5 flex-wrap text-xs text-gray-500 font-sans tracking-wide">
+      <ol className="flex items-center gap-1.5 flex-wrap text-[11px] text-gray-500 font-sans tracking-wide">
         <li className="flex items-center gap-1.5">
           <Link
             to="/"
@@ -20,7 +20,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ category, productName 
             <Home className="w-3.5 h-3.5 text-[#C6A15B]" />
             <span>Home</span>
           </Link>
-          <ChevronRight className="w-3 h-3 text-gray-400" />
+          <ChevronRight className="w-3 h-3 text-gray-300" />
         </li>
 
         <li className="flex items-center gap-1.5">
@@ -30,7 +30,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ category, productName 
           >
             Shop
           </Link>
-          <ChevronRight className="w-3 h-3 text-gray-400" />
+          <ChevronRight className="w-3 h-3 text-gray-300" />
         </li>
 
         {category && (
@@ -41,11 +41,11 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ category, productName 
             >
               {category}
             </Link>
-            <ChevronRight className="w-3 h-3 text-gray-400" />
+            <ChevronRight className="w-3 h-3 text-gray-300" />
           </li>
         )}
 
-        <li className="text-[#121212] font-semibold truncate max-w-[200px] sm:max-w-xs" aria-current="page">
+        <li className="text-[#121212] font-medium truncate max-w-[200px] sm:max-w-xs" aria-current="page">
           {productName}
         </li>
       </ol>
