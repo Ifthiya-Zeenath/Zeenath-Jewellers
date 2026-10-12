@@ -14,13 +14,46 @@ import {
   sendPasswordResetEmail,
 } from 'firebase/auth';
 import type { User, UserCredential } from 'firebase/auth';
-import { auth, isFirebaseConfigured } from '../lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db, isFirebaseConfigured } from '../lib/firebase';
 
 export interface AuthResponse {
   success: boolean;
   user?: User;
+  isAdmin?: boolean;
   error?: string;
 }
+
+/**
+ * Verify whether a Firebase Auth user has administrator privileges.
+ * Evaluates both supported authorization mechanisms:
+ * 1. Firebase Auth ID token custom claim `admin === true`
+ * 2. Cloud Firestore document existence at `/admins/{user.uid}`
+ *
+ * Safely handles token retrieval errors and Firestore permission-denied errors.
+ */
+export const checkUserIsAdmin = async (user: User | null): Promise<boolean> => {
+  if (!user || !isFirebaseConfigured()) {
+    return false;
+  }
+
+  try {
+    // 1. Check ID token custom claims for admin === true
+    const tokenResult = await user.getIdTokenResult();
+    if (tokenResult?.claims?.admin === true) {
+      return true;
+    }
+
+    // 2. Check Cloud Firestore /admins/{user.uid} document lookup
+    const adminDocRef = doc(db, 'admins', user.uid);
+    const adminDocSnap = await getDoc(adminDocRef);
+    return adminDocSnap.exists();
+  } catch (err: unknown) {
+    // Treat permission-denied (non-admin) or network/unauthorized errors as non-admin
+    console.warn('Administrator authorization check returned non-admin or failed:', err);
+    return false;
+  }
+};
 
 /**
  * Helper to map Firebase Auth error codes to user-friendly messages
@@ -90,9 +123,11 @@ export const loginWithEmail = async (
 
   try {
     const credential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
+    const isAdmin = await checkUserIsAdmin(credential.user);
     return {
       success: true,
       user: credential.user,
+      isAdmin,
     };
   } catch (err: unknown) {
     const errorMessage = formatAuthError(err);

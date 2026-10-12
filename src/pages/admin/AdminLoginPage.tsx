@@ -62,7 +62,13 @@ export const AdminLoginPage: React.FC = () => {
     try {
       const res = await login(email.trim(), password.trim());
       if (res.success) {
-        navigate('/admin/dashboard', { replace: true });
+        if (res.isAdmin) {
+          navigate('/admin/dashboard', { replace: true });
+        } else {
+          setErrorMessage(
+            'Access denied: This account is authenticated but does not possess verified administrator privileges.'
+          );
+        }
       } else {
         setErrorMessage(res.error || 'Authentication failed. Please check credentials.');
       }
