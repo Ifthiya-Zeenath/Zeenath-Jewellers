@@ -39,7 +39,7 @@ export const ImageUploadDropzone: React.FC<ImageUploadDropzoneProps> = ({
       </label>
 
       {/* Upload Dropzone Container */}
-      <div className="relative border-2 border-dashed border-[#C6A15B]/40 hover:border-[#C6A15B] rounded-xs p-6 bg-[#FAF8F3]/60 transition-colors text-center cursor-pointer group">
+      <div className="relative border-2 border-dashed border-[#C6A15B]/40 hover:border-[#C6A15B] rounded-xl p-6 bg-[#FAF8F3]/60 hover:bg-[#FAF8F3] transition-all duration-300 text-center cursor-pointer group shadow-2xs">
         <input
           type="file"
           multiple
@@ -50,7 +50,7 @@ export const ImageUploadDropzone: React.FC<ImageUploadDropzoneProps> = ({
         />
 
         <div className="space-y-2 pointer-events-none">
-          <div className="w-10 h-10 rounded-full bg-white border border-[#C6A15B]/30 flex items-center justify-center mx-auto text-[#C6A15B] shadow-2xs group-hover:scale-105 transition-transform">
+          <div className="w-11 h-11 rounded-full bg-white border border-[#C6A15B]/30 flex items-center justify-center mx-auto text-[#C6A15B] shadow-2xs group-hover:scale-110 transition-transform duration-300">
             <Upload className="w-5 h-5" />
           </div>
           <div>
@@ -70,28 +70,28 @@ export const ImageUploadDropzone: React.FC<ImageUploadDropzoneProps> = ({
           {images.map((img) => (
             <div
               key={img.id}
-              className="relative group aspect-square bg-white border border-[#C6A15B]/30 rounded-xs overflow-hidden shadow-2xs"
+              className="relative group aspect-square bg-white border border-[#C6A15B]/30 rounded-xl overflow-hidden shadow-2xs"
             >
               <img
                 src={img.previewUrl}
                 alt={img.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
 
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2 text-white text-[9px]">
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-2.5 text-white text-[9px]">
                 <div className="flex justify-end">
                   <button
                     type="button"
                     onClick={() => onRemoveImage(img.id)}
-                    className="p-1 bg-red-600/90 text-white rounded-xs hover:bg-red-700 transition-colors cursor-pointer"
+                    className="p-1.5 bg-red-600/90 hover:bg-red-700 text-white rounded-full transition-colors cursor-pointer shadow-xs"
                     title="Remove image"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
-                <div className="truncate font-mono">
-                  <p className="truncate">{img.name}</p>
-                  <p className="text-gray-300">{formatFileSize(img.size)}</p>
+                <div className="truncate font-mono bg-black/40 backdrop-blur-xs p-1.5 rounded-lg">
+                  <p className="truncate font-medium">{img.name}</p>
+                  <p className="text-gray-300 text-[8px]">{formatFileSize(img.size)}</p>
                 </div>
               </div>
             </div>
