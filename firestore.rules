@@ -45,13 +45,27 @@ service cloud.firestore {
     // ============================================================================
     match /customRequests/{requestId} {
       allow create: if request.resource.data.customerName is string
+                    && request.resource.data.customerName.size() > 0
+                    && request.resource.data.customerName.size() <= 120
                     && request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 5
+                    && request.resource.data.phone.size() <= 30
                     && request.resource.data.email is string
+                    && request.resource.data.email.size() > 0
+                    && request.resource.data.email.size() <= 120
                     && request.resource.data.jewelleryType is string
+                    && request.resource.data.jewelleryType.size() <= 80
                     && request.resource.data.metalType is string
+                    && request.resource.data.metalType.size() <= 80
                     && request.resource.data.budgetRange is string
+                    && request.resource.data.budgetRange.size() <= 80
                     && request.resource.data.designDescription is string
-                    && request.resource.data.status == 'pending';
+                    && request.resource.data.designDescription.size() > 0
+                    && request.resource.data.designDescription.size() <= 5000
+                    && request.resource.data.status == 'pending'
+                    && (!('preferredCompletionDate' in request.resource.data) || (request.resource.data.preferredCompletionDate is string && request.resource.data.preferredCompletionDate.size() <= 80))
+                    && (!('specialRequirements' in request.resource.data) || (request.resource.data.specialRequirements is string && request.resource.data.specialRequirements.size() <= 3000))
+                    && (!('createdAt' in request.resource.data) || (request.resource.data.createdAt is string && request.resource.data.createdAt.size() <= 50));
       allow read, update, delete: if isAdmin();
     }
 
@@ -64,9 +78,19 @@ service cloud.firestore {
     // ============================================================================
     match /enquiries/{enquiryId} {
       allow create: if request.resource.data.customerName is string
+                    && request.resource.data.customerName.size() > 0
+                    && request.resource.data.customerName.size() <= 120
                     && request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 5
+                    && request.resource.data.phone.size() <= 30
                     && request.resource.data.message is string
-                    && request.resource.data.status == 'new';
+                    && request.resource.data.message.size() > 0
+                    && request.resource.data.message.size() <= 3000
+                    && request.resource.data.status == 'new'
+                    && (!('email' in request.resource.data) || (request.resource.data.email is string && request.resource.data.email.size() <= 120))
+                    && (!('productCode' in request.resource.data) || (request.resource.data.productCode is string && request.resource.data.productCode.size() <= 50))
+                    && (!('productName' in request.resource.data) || (request.resource.data.productName is string && request.resource.data.productName.size() <= 150))
+                    && (!('createdAt' in request.resource.data) || (request.resource.data.createdAt is string && request.resource.data.createdAt.size() <= 50));
       allow read, update, delete: if isAdmin();
     }
 

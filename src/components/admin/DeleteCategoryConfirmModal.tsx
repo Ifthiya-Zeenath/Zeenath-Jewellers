@@ -19,15 +19,16 @@ export const DeleteCategoryConfirmModal: React.FC<DeleteCategoryConfirmModalProp
   onConfirm,
   isDeleting,
 }) => {
-  if (!isOpen || !category) return null;
-
   // Calculate how many products reference this category name
   const referencingProducts = useMemo(() => {
+    if (!category) return [];
     const targetName = category.name.trim().toLowerCase();
     return products.filter(
       (p) => p.category && p.category.trim().toLowerCase() === targetName
     );
   }, [category, products]);
+
+  if (!isOpen || !category) return null;
 
   const usageCount = referencingProducts.length;
   const isBlockedFromDeletion = usageCount > 0;

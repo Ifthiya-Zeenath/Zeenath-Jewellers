@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Shield, Loader2 } from 'lucide-react';
 
 export const PublicOnlyAdminRoute: React.FC = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, isAdmin, loading } = useAuth();
 
   if (loading) {
     return (
@@ -22,8 +22,9 @@ export const PublicOnlyAdminRoute: React.FC = () => {
     );
   }
 
-  // Redirect to /admin/dashboard if already authenticated
-  if (isAuthenticated) {
+  // Redirect to /admin/dashboard only if authenticated AND verified as admin.
+  // Non-admin authenticated users are not redirected to avoid infinite loops with ProtectedRoute.
+  if (isAuthenticated && isAdmin) {
     return <Navigate to="/admin/dashboard" replace />;
   }
 

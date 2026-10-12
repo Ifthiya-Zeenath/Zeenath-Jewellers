@@ -112,7 +112,7 @@ export const ShopPage: React.FC = () => {
     });
 
     return result;
-  }, [searchQuery, selectedCategory, sortOption]);
+  }, [productsList, searchQuery, selectedCategory, sortOption]);
 
   const handleResetFilters = () => {
     setSearchQuery('');

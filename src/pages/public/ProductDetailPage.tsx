@@ -40,16 +40,16 @@ export const ProductDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (!id) return;
+    let isMounted = true;
     const mockMatch = getProductById(id);
     if (mockMatch) {
       setProduct(mockMatch);
       setLoading(false);
-      return;
+    } else {
+      setLoading(true);
     }
 
-    // Try fetching from Firestore
-    setLoading(true);
-    let isMounted = true;
+    // Always fetch latest product details from Cloud Firestore
     getFirestoreProductById(id).then((fsItem) => {
       if (isMounted) {
         if (fsItem) {
@@ -70,9 +70,14 @@ export const ProductDetailPage: React.FC = () => {
             availability: fsItem.availability,
             createdAt: fsItem.createdAt,
           });
-        } else {
+        } else if (!mockMatch) {
           setProduct(undefined);
         }
+        setLoading(false);
+      }
+    }).catch(() => {
+      if (isMounted) {
+        if (!mockMatch) setProduct(undefined);
         setLoading(false);
       }
     });
