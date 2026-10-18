@@ -65,6 +65,7 @@ service cloud.firestore {
                     && request.resource.data.status == 'pending'
                     && (!('preferredCompletionDate' in request.resource.data) || (request.resource.data.preferredCompletionDate is string && request.resource.data.preferredCompletionDate.size() <= 80))
                     && (!('specialRequirements' in request.resource.data) || (request.resource.data.specialRequirements is string && request.resource.data.specialRequirements.size() <= 3000))
+                    && (!('referenceImages' in request.resource.data) || (request.resource.data.referenceImages is list && request.resource.data.referenceImages.size() <= 5))
                     && (!('createdAt' in request.resource.data) || (request.resource.data.createdAt is string && request.resource.data.createdAt.size() <= 50));
       allow read, update, delete: if isAdmin();
     }

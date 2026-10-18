@@ -70,10 +70,10 @@ export const AdminLoginPage: React.FC = () => {
           );
         }
       } else {
-        setErrorMessage(res.error || 'Authentication failed. Please check credentials.');
+        setErrorMessage(res.error || 'The email or password is incorrect. Please check your details and try again.');
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'An unexpected login error occurred.';
+      const msg = err instanceof Error ? err.message : 'An unexpected error occurred during login. Please try again.';
       setErrorMessage(msg);
     } finally {
       setIsSubmitting(false);

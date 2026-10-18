@@ -68,11 +68,11 @@ export const AboutPage: React.FC = () => {
           </div>
 
           {/* Natural Brand PNG Asset */}
-          <div className="flex justify-center pt-2 pb-1">
+          <div className="flex justify-center pt-2 pb-2">
             <img
               src="/zeenathjewellers.png"
               alt="Zeenath Jewellers"
-              className="h-10 sm:h-14 md:h-16 w-auto object-contain drop-shadow-[0_4px_16px_rgba(198,161,91,0.25)]"
+              className="h-16 sm:h-22 md:h-26 lg:h-28 max-w-[85vw] sm:max-w-md w-auto object-contain filter drop-shadow-[0_8px_24px_rgba(198,161,91,0.28)] hover:scale-[1.02] transition-transform duration-500"
               onError={(e) => {
                 // Fallback to text if PNG fails
                 (e.currentTarget as HTMLElement).style.display = 'none';
