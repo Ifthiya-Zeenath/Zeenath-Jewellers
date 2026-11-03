@@ -341,18 +341,10 @@ Please advise on design consultation and next steps.`;
         {/* Ambient radial glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#C6A15B]/12 rounded-full blur-[130px] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-7">
           
-          {/* Atelier Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#C6A15B]/30 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C6A15B]">
-              Bespoke Goldsmithing Atelier • Hambantota
-            </span>
-          </div>
-
           {/* Natural Brand PNG Asset */}
-          <div className="flex justify-center pt-2 pb-2">
+          <div className="flex justify-center pt-2 pb-1">
             <img
               src="/zeenathjewellers.png"
               alt="Zeenath Jewellers"
@@ -374,22 +366,14 @@ Please advise on design consultation and next steps.`;
           </p>
 
           {/* Quick Pillars Strip */}
-          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto border-t border-white/10 text-center">
-            <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-[#C6A15B]/30 transition-colors">
-              <div className="font-serif text-xl sm:text-2xl font-bold text-[#C6A15B]">22K & 24K</div>
-              <div className="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Hallmarked Purity</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-[#C6A15B]/30 transition-colors">
+          <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto border-t border-white/10 text-center">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#C6A15B]/40 transition-colors">
               <div className="font-serif text-xl sm:text-2xl font-bold text-white">Direct Sync</div>
-              <div className="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Artisan Guidance</div>
+              <div className="text-[11px] text-gray-400 uppercase tracking-wider mt-1">Artisan Guidance</div>
             </div>
-            <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-[#C6A15B]/30 transition-colors">
-              <div className="font-serif text-xl sm:text-2xl font-bold text-[#C0C0C0]">3D CAD & Wax</div>
-              <div className="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Precision Artistry</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-[#C6A15B]/30 transition-colors">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#C6A15B]/40 transition-colors">
               <div className="font-serif text-xl sm:text-2xl font-bold text-[#C6A15B]">Hambantota</div>
-              <div className="text-[11px] text-gray-400 uppercase tracking-wider mt-0.5">Wilmot St Atelier</div>
+              <div className="text-[11px] text-gray-400 uppercase tracking-wider mt-1">Wilmot St Atelier</div>
             </div>
           </div>
 
@@ -1059,10 +1043,6 @@ Please advise on design consultation and next steps.`;
           })}
         </div>
 
-        {/* Bottom Banner */}
-        <div className="mt-12 text-center text-xs text-gray-500 font-serif italic">
-          <span>"{BUSINESS_DETAILS.tagline}" • Flagship boutique located at {BUSINESS_DETAILS.address}</span>
-        </div>
       </section>
 
     </div>
