@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
   MapPin,
   Phone,
@@ -10,8 +9,6 @@ import {
   AlertCircle,
   MessageSquare,
   ExternalLink,
-  Sparkles,
-  ArrowRight,
 } from 'lucide-react';
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { submitEnquiryToFirestore } from '../../services/firestoreService';
@@ -121,34 +118,23 @@ export const ContactPage: React.FC = () => {
   };
 
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    'Zeenath Jewellers No. 31 Wilmot Street Hambantota Sri Lanka'
+    'No. 31, Wilmot Street, Hambantota, Sri Lanka'
   )}`;
 
   return (
     <div className="min-h-screen bg-[#FAF8F3] text-[#121212] overflow-x-hidden selection:bg-[#C6A15B] selection:text-white">
       
       {/* ====================================================================
-          1. CONTACT HERO (DARK obsidian background with gold radial glow)
+          1. CONTACT HERO (Clean minimal dark obsidian background)
           ==================================================================== */}
       <section className="relative bg-[#121212] text-white pt-28 sm:pt-36 pb-20 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-[#C6A15B]/20 overflow-hidden">
-        {/* Ambient radial glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-[#C6A15B]/10 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="max-w-4xl mx-auto text-center relative z-10 space-y-5">
-          {/* Sub-tag badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#C6A15B]/30 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C6A15B]">
-              Boutique Consultation & Enquiries
-            </span>
-          </div>
-
-          {/* Natural Brand PNG Asset */}
+        <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+          {/* Natural Brand PNG Asset without glow/gradient */}
           <div className="flex justify-center pt-2 pb-2">
             <img
               src="/zeenathjewellers.png"
               alt="Zeenath Jewellers"
-              className="h-16 sm:h-22 md:h-26 lg:h-28 max-w-[85vw] sm:max-w-md w-auto object-contain filter drop-shadow-[0_8px_24px_rgba(198,161,91,0.28)] hover:scale-[1.02] transition-transform duration-500"
+              className="h-16 sm:h-22 md:h-26 lg:h-28 max-w-[85vw] sm:max-w-md w-auto object-contain brightness-105"
               onError={(e) => {
                 (e.currentTarget as HTMLElement).style.display = 'none';
               }}
@@ -168,131 +154,115 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* ====================================================================
-          2. PRIMARY CONTACT ACTIONS (LIGHT background with 4 action cards)
+          2. PRIMARY CONTACT ACTIONS (LIGHT background with 4 clickable action cards)
           ==================================================================== */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
           
-          {/* Action 1: WHATSAPP (PRIMARY CTA - Visually strongest) */}
-          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#C6A15B]/40 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-6 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
+          {/* Action 1: WHATSAPP - Entire Card Clickable */}
+          <a
+            href={getWhatsAppEnquiryUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat with Zeenath Jewellers on WhatsApp (opens in a new tab)"
+            className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
                 <MessageSquare className="w-6 h-6" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Fastest Response</span>
-                <h3 className="font-serif text-lg font-bold text-[#121212] mt-0.5">WhatsApp Direct</h3>
+                <h3 className="font-serif text-lg font-bold text-[#121212] group-hover:text-[#C6A15B] transition-colors mt-0.5">WhatsApp Direct</h3>
                 <p className="text-xs text-gray-600 font-light mt-1">
                   Instant response for gold rate updates, product enquiries, and custom designs.
                 </p>
               </div>
             </div>
 
-            <a
-              href={getWhatsAppEnquiryUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#C6A15B] hover:bg-[#A88645] text-white font-semibold text-xs uppercase tracking-widest rounded-full transition-colors duration-300 shadow-md"
-            >
-              <MessageSquare className="w-4 h-4" />
+            <span className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#C6A15B] group-hover:bg-[#A88645] text-[#121212] group-hover:text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-xs group-hover:shadow-md">
+              <MessageSquare className="w-4 h-4 shrink-0" />
               <span>Chat on WhatsApp</span>
-            </a>
-          </div>
+            </span>
+          </a>
 
-          {/* Action 2: CALL BOUTIQUE (SECONDARY CTA) */}
-          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group">
+          {/* Action 2: CALL BOUTIQUE - Entire Card Clickable */}
+          <a
+            href={`tel:${BUSINESS_DETAILS.phone.replace(/[^0-9+]/g, '')}`}
+            aria-label={`Call Zeenath Jewellers at ${BUSINESS_DETAILS.phone}`}
+            className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#121212] group-hover:text-[#C6A15B] transition-colors duration-300">
                 <Phone className="w-6 h-6" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Direct Line</span>
-                <h3 className="font-serif text-lg font-bold text-[#121212] mt-0.5">Phone Call</h3>
+                <h3 className="font-serif text-lg font-bold text-[#121212] group-hover:text-[#C6A15B] transition-colors mt-0.5">Phone Call</h3>
                 <p className="text-xs text-gray-600 font-light mt-1">
                   {BUSINESS_DETAILS.phone}
                 </p>
               </div>
             </div>
 
-            <a
-              href={`tel:${BUSINESS_DETAILS.phone.replace(/[^0-9+]/g, '')}`}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#121212] hover:bg-[#C6A15B] text-white font-semibold text-xs uppercase tracking-widest rounded-full transition-colors duration-300"
-            >
-              <Phone className="w-4 h-4" />
+            <span className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#C6A15B] group-hover:bg-[#A88645] text-[#121212] group-hover:text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-xs group-hover:shadow-md">
+              <Phone className="w-4 h-4 shrink-0" />
               <span>Call Zeenath</span>
-            </a>
-          </div>
+            </span>
+          </a>
 
-          {/* Action 3: EMAIL CONSULTATION */}
-          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group">
+          {/* Action 3: EMAIL CONSULTATION - Entire Card Clickable */}
+          <a
+            href={`mailto:${BUSINESS_DETAILS.email}`}
+            aria-label={`Send an email enquiry to Zeenath Jewellers at ${BUSINESS_DETAILS.email}`}
+            className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#121212] group-hover:text-[#C6A15B] transition-colors duration-300">
                 <Mail className="w-6 h-6" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Written Request</span>
-                <h3 className="font-serif text-lg font-bold text-[#121212] mt-0.5">Email Us</h3>
+                <h3 className="font-serif text-lg font-bold text-[#121212] group-hover:text-[#C6A15B] transition-colors mt-0.5">Email Us</h3>
                 <p className="text-xs text-gray-600 font-light mt-1 break-all">
                   {BUSINESS_DETAILS.email}
                 </p>
               </div>
             </div>
 
-            <a
-              href={`mailto:${BUSINESS_DETAILS.email}`}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#FAF8F3] hover:bg-[#121212] text-[#121212] hover:text-white border border-gray-300 hover:border-[#121212] font-semibold text-xs uppercase tracking-widest rounded-full transition-all duration-300"
-            >
-              <Mail className="w-4 h-4 text-[#C6A15B]" />
+            <span className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#C6A15B] group-hover:bg-[#A88645] text-[#121212] group-hover:text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-xs group-hover:shadow-md">
+              <Mail className="w-4 h-4 shrink-0" />
               <span>Send Email</span>
-            </a>
-          </div>
+            </span>
+          </a>
 
-          {/* Action 4: BOUTIQUE LOCATION */}
-          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group">
+          {/* Action 4: BOUTIQUE LOCATION - Entire Card Clickable */}
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View Zeenath Jewellers location on Google Maps (opens in a new tab)"
+            className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-6 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-xl bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#121212] group-hover:text-[#C6A15B] transition-colors duration-300">
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Visit Boutique</span>
-                <h3 className="font-serif text-lg font-bold text-[#121212] mt-0.5">Hambantota Store</h3>
+                <h3 className="font-serif text-lg font-bold text-[#121212] group-hover:text-[#C6A15B] transition-colors mt-0.5">Hambantota Store</h3>
                 <p className="text-xs text-gray-600 font-light mt-1">
-                  {BUSINESS_DETAILS.address}
+                  No. 31, Wilmot Street, Hambantota, Sri Lanka
                 </p>
               </div>
             </div>
 
-            <a
-              href={googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#FAF8F3] hover:bg-[#121212] text-[#121212] hover:text-white border border-gray-300 hover:border-[#121212] font-semibold text-xs uppercase tracking-widest rounded-full transition-all duration-300"
-            >
-              <ExternalLink className="w-4 h-4 text-[#C6A15B]" />
+            <span className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#C6A15B] group-hover:bg-[#A88645] text-[#121212] group-hover:text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-xs group-hover:shadow-md">
+              <ExternalLink className="w-4 h-4 shrink-0" />
               <span>Get Directions</span>
-            </a>
-          </div>
-
-        </div>
-
-        {/* Compact Daily Gold Rate Banner Indicator */}
-        <div className="mt-8 p-4 rounded-xl bg-white border border-[#C6A15B]/20 flex flex-wrap items-center justify-between gap-4 text-xs reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-medium text-gray-700">Daily Gold Rate Updates Available</span>
-            <span className="text-gray-400">|</span>
-            <span className="text-gray-500 font-light">22K & 24K Sri Lankan Gold</span>
-          </div>
-          <a
-            href={getWhatsAppEnquiryUrl('Hello Zeenath Jewellers, please share today\'s 22K and 24K gold rates.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-semibold text-[#C6A15B] hover:underline flex items-center gap-1"
-          >
-            <span>Ask for Today's Rate via WhatsApp</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            </span>
           </a>
+
         </div>
       </section>
 
@@ -302,7 +272,7 @@ export const ContactPage: React.FC = () => {
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
-          {/* Left: Luxury Consultation Form (8 Cols) */}
+          {/* Left: Luxury Consultation Form (7 Cols) */}
           <div className="lg:col-span-7 bg-white rounded-3xl border border-gray-200/80 p-8 sm:p-12 shadow-sm space-y-6 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
             <div className="space-y-1">
               <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C6A15B]">
@@ -330,7 +300,7 @@ export const ContactPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsSubmitted(false)}
-                  className="px-6 py-2.5 bg-[#121212] hover:bg-[#C6A15B] text-white text-xs font-semibold uppercase tracking-widest rounded-full transition-colors duration-300"
+                  className="px-6 py-2.5 bg-[#121212] hover:bg-[#C6A15B] text-white text-xs font-semibold uppercase tracking-widest rounded-full transition-colors duration-300 cursor-pointer"
                 >
                   Send Another Message
                 </button>
@@ -455,20 +425,20 @@ export const ContactPage: React.FC = () => {
                   )}
                 </div>
 
-                {/* Submit Pill Button */}
+                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#121212] hover:bg-[#C6A15B] text-white font-semibold text-xs uppercase tracking-widest rounded-full transition-colors duration-300 shadow-md disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#C6A15B] hover:bg-[#A88645] text-[#121212] hover:text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-md disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-[#121212] border-t-transparent rounded-full animate-spin" />
                       <span>Submitting Enquiry...</span>
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4 text-[#C6A15B]" />
+                      <Send className="w-4 h-4 text-[#121212]" />
                       <span>Submit Message</span>
                     </>
                   )}
@@ -477,9 +447,40 @@ export const ContactPage: React.FC = () => {
             )}
           </div>
 
-          {/* Right: Boutique Information, Hours & Socials (5 Cols) */}
+          {/* Right: Boutique Location, Hours & Socials (5 Cols) */}
           <div className="lg:col-span-5 space-y-6 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700 delay-150">
             
+            {/* Boutique Location / Address Card - Entire Card Clickable */}
+            <a
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Zeenath Jewellers location on Google Maps (opens in a new tab)"
+              className="bg-white rounded-3xl border border-gray-200/80 p-8 shadow-sm space-y-4 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 block group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#121212] group-hover:text-[#C6A15B] transition-colors duration-300">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#C6A15B]">Boutique Location</span>
+                  <h3 className="font-serif font-bold text-lg text-[#121212] group-hover:text-[#C6A15B] transition-colors">Store Address</h3>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-gray-100 text-xs text-gray-700 space-y-3">
+                <p className="text-xs sm:text-sm text-gray-800 font-medium leading-relaxed">
+                  No. 31, Wilmot Street, Hambantota, Sri Lanka
+                </p>
+                <div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#C6A15B] group-hover:text-[#A88645] transition-colors">
+                    <span>Get Directions on Google Maps</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </a>
+
             {/* Hours Card */}
             <div className="bg-white rounded-3xl border border-gray-200/80 p-8 shadow-sm space-y-6">
               <div className="flex items-center gap-3">
@@ -565,77 +566,6 @@ export const ContactPage: React.FC = () => {
 
           </div>
 
-        </div>
-      </section>
-
-      {/* ====================================================================
-          4. BOUTIQUE LOCATION SECTION (DARK obsidian banner)
-          ==================================================================== */}
-      <section className="bg-[#121212] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-y border-[#C6A15B]/20">
-        <div className="max-w-5xl mx-auto text-center space-y-6 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-[#C6A15B]/30">
-            <MapPin className="w-3.5 h-3.5 text-[#C6A15B]" />
-            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#C6A15B]">
-              Hambantota Boutique Location
-            </span>
-          </div>
-
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white tracking-tight">
-            Visit Us in Person
-          </h2>
-
-          <p className="text-xs sm:text-sm text-gray-300 font-light max-w-lg mx-auto leading-relaxed">
-            {BUSINESS_DETAILS.brandName}
-            <br />
-            {BUSINESS_DETAILS.address}
-            <br />
-            {BUSINESS_DETAILS.location}
-          </p>
-
-          <div className="pt-2">
-            <a
-              href={googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#C6A15B] hover:bg-[#A88645] text-white text-xs uppercase tracking-widest font-semibold rounded-full transition-all duration-300 shadow-lg"
-            >
-              <MapPin className="w-4 h-4" />
-              <span>Get Directions on Google Maps</span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          5. CUSTOM JEWELLERY CTA (LIGHT background)
-          ==================================================================== */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
-        <div className="bg-white rounded-3xl border border-gray-200/80 p-8 sm:p-12 shadow-sm space-y-5 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C6A15B]/20">
-            <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
-            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#C6A15B]">
-              Bespoke Jewellery Request
-            </span>
-          </div>
-
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#121212]">
-            Looking for something unique?
-          </h2>
-
-          <p className="text-xs sm:text-sm text-gray-600 font-light max-w-md mx-auto leading-relaxed">
-            Bring your idea to life with a custom jewellery design. Work directly with our goldsmiths to craft custom rings, bangles, and bridal pieces.
-          </p>
-
-          <div className="pt-2">
-            <Link
-              to="/custom-jewellery"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#121212] hover:bg-[#C6A15B] text-white text-xs uppercase tracking-widest font-semibold rounded-full transition-all duration-300 shadow-md"
-            >
-              <span>Start Custom Design</span>
-              <ArrowRight className="w-4 h-4 text-[#C6A15B]" />
-            </Link>
-          </div>
         </div>
       </section>
 

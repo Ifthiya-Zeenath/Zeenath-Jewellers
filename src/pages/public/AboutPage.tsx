@@ -8,22 +8,24 @@ import {
   Mail,
   Clock,
   Sparkles,
-  ArrowRight,
   ShieldCheck,
   CheckCircle2,
   MessageSquare,
 } from 'lucide-react';
 
-import atelierImg from '../../assets/custom-atelier.jpg';
 import necklaceImg from '../../assets/necklace-collection.jpg';
 
 import { BUSINESS_DETAILS, getWhatsAppEnquiryUrl } from '../../constants/businessDetails';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 export const AboutPage: React.FC = () => {
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    'No. 31, Wilmot Street, Hambantota, Sri Lanka'
+  )}`;
+
   useDocumentTitle(
     'About Us | Zeenath Jewellers Hambantota',
-    'Learn about Zeenath Jewellers — Hambantota\'s gold partner for life. Established 19 December 2021, offering 22K and 24K gold jewellery and custom goldsmithing.'
+    'Learn about Zeenath Jewellers — Hambantota\'s gold partner for life. Offering 22K and 24K gold jewellery, transparent customer care, and custom goldsmithing.'
   );
 
   // Scroll reveal observer for subtle Apple-style entry animations
@@ -59,13 +61,6 @@ export const AboutPage: React.FC = () => {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#C6A15B]/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          {/* Heritage Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#C6A15B]/30 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C6A15B]">
-              Established 19 December 2021 • Hambantota
-            </span>
-          </div>
 
           {/* Natural Brand PNG Asset */}
           <div className="flex justify-center pt-2 pb-2">
@@ -350,58 +345,9 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* ====================================================================
-          5. CUSTOM JEWELLERY SECTION (LIGHT background callout card)
+          5. BUSINESS DETAILS & STORE INFORMATION
           ==================================================================== */}
-      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#121212] via-[#1a1a1a] to-[#121212] text-white p-8 sm:p-12 lg:p-16 border border-[#C6A15B]/30 shadow-2xl reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
-          {/* Subtle image overlay */}
-          <div className="absolute inset-0 opacity-15 mix-blend-overlay">
-            <img src={atelierImg} alt="Custom Atelier" className="w-full h-full object-cover" />
-          </div>
-
-          <div className="relative z-10 max-w-2xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C6A15B]/20 border border-[#C6A15B]/40">
-              <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
-              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#C6A15B]">
-                Bespoke Goldsmithing
-              </span>
-            </div>
-
-            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white tracking-tight">
-              Looking for Something Unique?
-            </h2>
-
-            <p className="text-sm sm:text-base text-gray-300 font-light leading-relaxed">
-              Collaborate directly with our master goldsmiths to craft custom gold rings, bangles, bridal necklaces, or personalized gifts tailored to your exact weight and design preferences.
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Link
-                to="/custom-jewellery"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#C6A15B] text-white text-xs uppercase tracking-widest font-semibold rounded-full hover:bg-[#A88645] transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                <span>Start Your Custom Design</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              
-              <a
-                href={getWhatsAppEnquiryUrl('Hello Zeenath Jewellers, I would like to enquire about custom jewellery crafting.')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white text-xs uppercase tracking-widest font-semibold rounded-full hover:bg-white/20 transition-all duration-300 border border-white/20"
-              >
-                <MessageSquare className="w-4 h-4 text-[#C6A15B]" />
-                <span>WhatsApp Goldsmith</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          6. BUSINESS DETAILS & STORE INFORMATION
-          ==================================================================== */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#C6A15B]/20">
         <div className="text-center space-y-3 mb-12 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
           <span className="text-xs uppercase tracking-[0.25em] text-[#C6A15B] font-semibold">
             Boutique Information
@@ -416,47 +362,61 @@ export const AboutPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-700">
           
-          {/* Location */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B]/30 transition-colors">
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B]">
+          {/* Location / Address Card - Entire Card Clickable */}
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View Zeenath Jewellers location on Google Maps (opens in a new tab)"
+            className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 block group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#C6A15B] group-hover:text-white transition-colors duration-300">
               <MapPin className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-base text-[#121212]">Address</h3>
+            <h3 className="font-serif font-bold text-base text-[#121212] group-hover:text-[#C6A15B] transition-colors">
+              Address
+            </h3>
             <p className="text-xs text-gray-600 leading-relaxed font-light">
-              {BUSINESS_DETAILS.address}
-              <br />
-              {BUSINESS_DETAILS.location}
+              No. 31, Wilmot Street, Hambantota, Sri Lanka
             </p>
-          </div>
+          </a>
 
-          {/* Contact Phone & WhatsApp */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B]/30 transition-colors">
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B]">
+          {/* Contact Phone & WhatsApp - Entire Card Clickable */}
+          <a
+            href={BUSINESS_DETAILS.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Contact Zeenath Jewellers on WhatsApp at ${BUSINESS_DETAILS.whatsapp} (opens in a new tab)`}
+            className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 block group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#C6A15B] group-hover:text-white transition-colors duration-300">
               <Phone className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-base text-[#121212]">Phone & WhatsApp</h3>
-            <p className="text-xs text-gray-600 leading-relaxed font-light">
-              <a href={`tel:${BUSINESS_DETAILS.phone}`} className="hover:text-[#C6A15B] transition-colors block">
-                {BUSINESS_DETAILS.phone}
-              </a>
-              <a href={BUSINESS_DETAILS.whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[#C6A15B] transition-colors block">
-                WhatsApp: {BUSINESS_DETAILS.whatsapp}
-              </a>
-            </p>
-          </div>
+            <h3 className="font-serif font-bold text-base text-[#121212] group-hover:text-[#C6A15B] transition-colors">
+              Phone & WhatsApp
+            </h3>
+            <div className="text-xs text-gray-600 leading-relaxed font-light space-y-0.5">
+              <p>{BUSINESS_DETAILS.phone}</p>
+              <p>WhatsApp: {BUSINESS_DETAILS.whatsapp}</p>
+            </div>
+          </a>
 
-          {/* Email */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B]/30 transition-colors">
-            <div className="w-10 h-10 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B]">
+          {/* Email - Entire Card Clickable */}
+          <a
+            href={`mailto:${BUSINESS_DETAILS.email}`}
+            aria-label={`Send an email enquiry to Zeenath Jewellers at ${BUSINESS_DETAILS.email}`}
+            className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B] hover:shadow-lg transition-all duration-300 block group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C6A15B]/50"
+          >
+            <div className="w-10 h-10 rounded-lg bg-[#FAF8F3] border border-[#C6A15B]/20 flex items-center justify-center text-[#C6A15B] group-hover:bg-[#C6A15B] group-hover:text-white transition-colors duration-300">
               <Mail className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-base text-[#121212]">Email Enquiry</h3>
+            <h3 className="font-serif font-bold text-base text-[#121212] group-hover:text-[#C6A15B] transition-colors">
+              Email Enquiry
+            </h3>
             <p className="text-xs text-gray-600 leading-relaxed font-light break-all">
-              <a href={`mailto:${BUSINESS_DETAILS.email}`} className="hover:text-[#C6A15B] transition-colors">
-                {BUSINESS_DETAILS.email}
-              </a>
+              {BUSINESS_DETAILS.email}
             </p>
-          </div>
+          </a>
 
           {/* Hours */}
           <div className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-3 hover:border-[#C6A15B]/30 transition-colors">

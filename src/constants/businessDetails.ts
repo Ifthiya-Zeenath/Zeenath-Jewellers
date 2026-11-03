@@ -20,7 +20,7 @@ export const BUSINESS_DETAILS = {
   whatsappNumberClean: '94779326428',
   whatsappUrl: 'https://wa.me/94779326428',
   email: 'zeenathjewellers22@gmail.com',
-  address: 'No.31, Wilmot Street, Hambantota.',
+  address: 'No. 31, Wilmot Street, Hambantota, Sri Lanka.',
   location: 'Hambantota, Sri Lanka',
 
   // Official Social Media Links
