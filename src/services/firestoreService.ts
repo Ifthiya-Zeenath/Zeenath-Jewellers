@@ -85,6 +85,7 @@ export interface FirestoreCustomRequest {
   preferredCompletionDate?: string;
   designDescription: string;
   specialRequirements?: string;
+  referenceImages?: string[];
   status: CustomRequestStatus;
   createdAt: string;
 }

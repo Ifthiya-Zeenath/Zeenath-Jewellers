@@ -59,20 +59,23 @@ export const checkUserIsAdmin = async (user: User | null): Promise<boolean> => {
  * Helper to map Firebase Auth error codes to user-friendly messages
  */
 export const formatAuthError = (err: unknown): string => {
-  if (!err) return 'An unexpected error occurred.';
+  if (!err) return 'An unexpected error occurred. Please check your details and try again.';
 
   const code = (err as { code?: string })?.code || '';
   const message = err instanceof Error ? err.message : String(err);
 
+  // Group all credential failures together so as not to reveal whether an email is registered
   if (
     code === 'auth/invalid-credential' ||
     code === 'auth/wrong-password' ||
     code === 'auth/user-not-found' ||
+    code === 'auth/invalid-login-credentials' ||
     message.includes('auth/invalid-credential') ||
     message.includes('auth/wrong-password') ||
-    message.includes('auth/user-not-found')
+    message.includes('auth/user-not-found') ||
+    message.includes('auth/invalid-login-credentials')
   ) {
-    return 'Invalid email or password. Please verify your admin credentials.';
+    return 'The email or password is incorrect. Please check your details and try again.';
   }
 
   if (
@@ -100,11 +103,11 @@ export const formatAuthError = (err: unknown): string => {
     code === 'auth/user-disabled' ||
     message.includes('auth/user-disabled')
   ) {
-    return 'This admin account has been disabled. Please contact system administrator.';
+    return 'This admin account has been disabled. Please contact the system administrator.';
   }
 
   // Fallback generic error message to avoid exposing internal Firebase details
-  return 'Authentication request failed. Please check your credentials and try again.';
+  return 'Authentication request failed. Please check your details and try again.';
 };
 
 /**

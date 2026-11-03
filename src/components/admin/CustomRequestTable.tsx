@@ -7,6 +7,7 @@ import {
   ExternalLink,
   MessageSquareX,
   Gem,
+  Image as ImageIcon,
 } from 'lucide-react';
 import type { FirestoreCustomRequest, CustomRequestStatus } from '../../services/firestoreService';
 import { CUSTOM_REQUEST_STATUS_LABELS } from '../../services/firestoreService';
@@ -167,6 +168,15 @@ export const CustomRequestTable: React.FC<CustomRequestTableProps> = ({
                           <span className="text-[10px] text-gray-400 block">
                             {req.metalType}
                           </span>
+                          {req.referenceImages && req.referenceImages.length > 0 && (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 mt-0.5 rounded text-[9px] font-semibold bg-[#C6A15B]/15 text-[#DFBA73] border border-[#C6A15B]/30">
+                              <ImageIcon className="w-2.5 h-2.5 shrink-0" />
+                              <span>
+                                {req.referenceImages.length}{' '}
+                                {req.referenceImages.length === 1 ? 'sketch' : 'sketches'}
+                              </span>
+                            </span>
+                          )}
                         </div>
                       </td>
 

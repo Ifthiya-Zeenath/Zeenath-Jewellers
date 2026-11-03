@@ -128,32 +128,20 @@ export const CustomJewelleryPage: React.FC = () => {
     }
   };
 
-  // Add Reference Images
-  const handleAddImages = (fileList: FileList | null) => {
-    if (!fileList) return;
-
-    const newImages: ReferenceImage[] = [];
-    Array.from(fileList).forEach((file) => {
-      if (images.length + newImages.length >= 5) return; // Limit 5 max
-      newImages.push({
-        id: `img-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-        file,
-        previewUrl: URL.createObjectURL(file),
-        name: file.name,
-        size: file.size,
+  // Add or update Reference Images
+  const handleAddImages = (incomingImages: ReferenceImage[]) => {
+    setImages((prev) => {
+      const map = new Map(prev.map((img) => [img.id, img]));
+      incomingImages.forEach((img) => {
+        map.set(img.id, img);
       });
+      return Array.from(map.values()).slice(0, 5);
     });
-
-    setImages((prev) => [...prev, ...newImages]);
   };
 
   // Remove Reference Image
   const handleRemoveImage = (id: string) => {
-    setImages((prev) => {
-      const target = prev.find((img) => img.id === id);
-      if (target) URL.revokeObjectURL(target.previewUrl);
-      return prev.filter((img) => img.id !== id);
-    });
+    setImages((prev) => prev.filter((img) => img.id !== id));
   };
 
   // Validate Form
@@ -203,6 +191,25 @@ export const CustomJewelleryPage: React.FC = () => {
       return;
     }
 
+    // Ensure images are not still optimizing
+    const isProcessing = images.some((img) => img.status === 'processing');
+    if (isProcessing) {
+      setFormError('Please wait a moment while your design reference images finish optimizing.');
+      return;
+    }
+
+    // Ensure there are no unresolved image errors
+    const hasError = images.some((img) => img.status === 'error');
+    if (hasError) {
+      setFormError('One or more selected reference images could not be processed. Please remove them before submitting.');
+      return;
+    }
+
+    // Extract optimized persistent reference image data URLs
+    const readyReferenceImages = images
+      .filter((img) => img.status === 'ready' && Boolean(img.previewUrl))
+      .map((img) => img.previewUrl);
+
     setIsSubmitting(true);
 
     try {
@@ -216,6 +223,7 @@ export const CustomJewelleryPage: React.FC = () => {
         preferredCompletionDate: formData.preferredCompletionDate.trim() || undefined,
         designDescription: formData.designDescription.trim(),
         specialRequirements: formData.specialRequirements.trim() || undefined,
+        referenceImages: readyReferenceImages.length > 0 ? readyReferenceImages : undefined,
       });
 
       if (res.success) {
@@ -344,11 +352,11 @@ Please advise on design consultation and next steps.`;
           </div>
 
           {/* Natural Brand PNG Asset */}
-          <div className="flex justify-center pt-1 pb-1">
+          <div className="flex justify-center pt-2 pb-2">
             <img
               src="/zeenathjewellers.png"
               alt="Zeenath Jewellers"
-              className="h-10 sm:h-14 md:h-16 w-auto object-contain drop-shadow-[0_4px_16px_rgba(198,161,91,0.25)]"
+              className="h-16 sm:h-22 md:h-26 lg:h-28 max-w-[85vw] sm:max-w-md w-auto object-contain filter drop-shadow-[0_8px_24px_rgba(198,161,91,0.28)] hover:scale-[1.02] transition-transform duration-500"
               onError={(e) => {
                 (e.currentTarget as HTMLElement).style.display = 'none';
               }}

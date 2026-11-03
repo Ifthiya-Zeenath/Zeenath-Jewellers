@@ -1,0 +1,11 @@
+warning: in the working copy of 'firestore.rules', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/admin/CustomRequestDetailsModal.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/admin/CustomRequestTable.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/custom/ImageUploadDropzone.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/admin/AdminLoginPage.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/public/AboutPage.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/public/ContactPage.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/router/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/services/authService.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/services/firestoreService.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vite.config.ts', LF will be replaced by CRLF the next time Git touches it
